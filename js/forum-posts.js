@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         layout.classList.add('loaded');
     }
 
-    // 初始化加载第一页
+    // 初始化加载第一页的文章
     await loadArticles(1);
 
-    // 为帖子列表添加点击事件
+    // 为帖子列表添加点击事件，跳转到帖子详情
     const postsList = document.querySelector('.posts-list');
     postsList.addEventListener('click', (e) => {
         const postItem = e.target.closest('.post-item');
@@ -23,94 +23,85 @@ document.addEventListener('DOMContentLoaded', async function() {
     // 搜索功能
     const searchBtn = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-box input');
-
+    
     if (searchBtn && searchInput) {
-        searchBtn.addEventListener('click', () => {
+        searchBtn.addEventListener('click', async () => {
             const searchText = searchInput.value.trim();
             if (searchText) {
-                // 这里可以添加搜索逻辑
-                console.log('搜索:', searchText);
-            }
-        });
-    }
-
-    
-    // 退出登录
-    const logoutBtn = document.querySelector('.logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (confirm('确定要退出登录吗？')) {
-                window.location.href = 'index.html';
-            }
-        });
-    }
-
-
-    // 分页功能
-    const pagination = document.querySelector('.pagination');
-    if (pagination) {
-        pagination.addEventListener('click', async (e) => {
-            const btn = e.target.closest('.page-btn:not([disabled])');
-            if (btn && !btn.classList.contains('active')) {
-                const page = parseInt(btn.dataset.page || btn.textContent);
-                await loadArticles(page);
+                await searchArticles(searchText);
+            } else {
+                // 如果搜索框为空，重新加载所有文章
+                await loadArticles(1);
             }
         });
     }
 });
 
-// 加载文章列表
-async function loadArticles(page, sort = 0) {
+// 加载文章列表（默认加载第一页）
+async function loadArticles(page = 1) {
     try {
-        const response = await fetch('/post/article_list_get', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                page,
-                sort 
-            })
-        });
-
-        const data = await response.json();
+        const response = await fetch(`http://ty9c9v.natappfree.cc/post/article_list?page=${page}`);
+        const result = await response.json();
         
-        if (data.code === '0') {
-            renderArticles(data.data.articles);
-            updatePagination(page, data.data.totalPages);
-        } else {
-            throw new Error(data.message || '获取文章列表失败');
+        if (result.status === 'success' && result.data) {
+            const postsList = document.querySelector('.posts-list');
+            postsList.innerHTML = ''; // 清空当前文章列表
+
+            result.data.forEach(article => {
+                const postItem = document.createElement('div');
+                postItem.classList.add('post-item');
+                postItem.dataset.id = article.articleId;
+
+                postItem.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p>${article.content}</p>
+                    <span class="post-date">${formatDate(article.timestamp)}</span>
+                `;
+                
+                postsList.appendChild(postItem);
+            });
+
+            // 更新分页
+            updatePagination(result.currentPage, result.totalPages);
         }
-    } catch (err) {
-        console.error('加载文章列表失败:', err);
-        alert('加载文章列表失败，请稍后重试');
+    } catch (error) {
+        console.error('加载文章失败:', error);
     }
 }
 
-// 渲染文章列表
-function renderArticles(articles) {
-    const postsList = document.querySelector('.posts-list');
-    
-    postsList.innerHTML = articles.map(article => `
-        <div class="post-item" data-id="${article.articleId}">
-            <div class="post-avatar">
-                <img src="assets/images/avatar.png" alt="用户头像" loading="lazy">
-            </div>
-            <div class="post-content">
-                <div class="post-title">
+// 搜索文章
+async function searchArticles(searchText) {
+    try {
+        // 使用GET请求进行搜索
+        const response = await fetch(`http://ty9c9v.natappfree.cc/post/article_search?query=${encodeURIComponent(searchText)}`);
+        const result = await response.json();
+        
+        if (result.status === 'success' && result.data) {
+            const postsList = document.querySelector('.posts-list');
+            postsList.innerHTML = ''; // 清空当前文章列表
+
+            result.data.forEach(article => {
+                const postItem = document.createElement('div');
+                postItem.classList.add('post-item');
+                postItem.dataset.id = article.articleId;
+
+                postItem.innerHTML = `
                     <h3>${article.title}</h3>
-                </div>
-                <div class="post-info">
-                    <span class="author">作者：${article.authorName}</span>
-                    <span class="time">发布时间：${formatDate(article.CreateTime)}</span>
-                    <span class="views">浏览：${article.clicks || 0}</span>
-                    <span class="comments">评论：${article.commentCount || 0}</span>
-                </div>
-                <p class="post-preview">${article.desc}</p>
-            </div>
-        </div>
-    `).join('');
+                    <p>${article.content}</p>
+                    <span class="post-date">${formatDate(article.timestamp)}</span>
+                `;
+                
+                postsList.appendChild(postItem);
+            });
+
+            // 更新分页
+            updatePagination(result.currentPage, result.totalPages);
+        } else {
+            alert('没有找到相关内容');
+        }
+    } catch (error) {
+        console.error('搜索失败:', error);
+    }
 }
 
 // 更新分页控件
@@ -134,6 +125,17 @@ function updatePagination(currentPage, totalPages) {
     html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">下一页</button>`;
 
     pagination.innerHTML = html;
+
+    // 为每个分页按钮绑定点击事件
+    const pageBtns = document.querySelectorAll('.page-btn');
+    pageBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const page = parseInt(btn.dataset.page, 10);
+            if (!isNaN(page)) {
+                await loadArticles(page);  // 加载指定页面的文章
+            }
+        });
+    });
 }
 
 // 格式化日期
