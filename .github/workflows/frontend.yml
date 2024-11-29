@@ -16,7 +16,7 @@ jobs:
     - name: Create frontend package
       run: |
         # 创建压缩包，包含 css, html 和 js 文件
-        tar -czf frontend-package.tar.gz --exclude='.git' ./path/to/css ./path/to/html ./path/to/js
+        tar -czf frontend-package.tar.gz --exclude='.git' .css .html .js
 
     # 部署到 ECS
     - name: Deploy to ECS
