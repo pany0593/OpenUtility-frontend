@@ -2,7 +2,7 @@ name: Frontend Deployment to ECS
 
 on:
   push:
-    branches: [ "main" ]  # 仅当 master 分支有提交时触发
+    branches: [ "master" ]  # 仅当 master 分支有提交时触发
 
 jobs:
   build:
