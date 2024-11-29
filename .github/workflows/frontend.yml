@@ -29,7 +29,7 @@ jobs:
         ssh-keyscan -H $ECS_HOST >> ~/.ssh/known_hosts
 
         # 将本地仓库内容传输到远程服务器
-        scp -r -i ecs_key.pem ./css ./html ./js ./index.html $ECS_USER@$ECS_HOST:$APP_PATH
+        scp -r -i ecs_key.pem ./* $ECS_USER@$ECS_HOST:$APP_PATH
         
         # 确保远程路径存在，并清空旧内容
         ssh -i ecs_key.pem $ECS_USER@$ECS_HOST -tt "docker restart nginx"
