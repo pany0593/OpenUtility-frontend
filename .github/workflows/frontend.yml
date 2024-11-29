@@ -28,16 +28,9 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -H $ECS_HOST >> ~/.ssh/known_hosts
 
-        # 确保远程路径存在
-        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST "mkdir -p $APP_PATH"
+        # 确保远程路径存在，并清空旧内容
+        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST -tt "rm -rf $APP_PATH/* && mkdir -p $APP_PATH"
 
         # 将本地仓库内容传输到远程服务器
         scp -r -i ecs_key.pem ./css ./html ./js $ECS_USER@$ECS_HOST:$APP_PATH
 
-        # 可选：清理远程目标文件夹中多余的旧文件
-        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST -tt<< EOF
-        # 确保目标路径只保留最新的内容
-        cd $APP_PATH
-        ls
-        exit
-        EOF
