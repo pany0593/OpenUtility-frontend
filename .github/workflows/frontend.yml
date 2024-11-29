@@ -30,8 +30,7 @@ jobs:
 
         # 确保远程路径存在，并清空旧内容
         ssh -i ecs_key.pem $ECS_USER@$ECS_HOST -tt "rm -rf $APP_PATH/* && mkdir -p $APP_PATH"
-        docker stop nginx
-        docker start nginx
+        docker restart nginx
 
         # 将本地仓库内容传输到远程服务器
         scp -r -i ecs_key.pem ./css ./html ./js $ECS_USER@$ECS_HOST:$APP_PATH
