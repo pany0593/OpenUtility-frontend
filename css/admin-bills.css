@@ -1,0 +1,243 @@
+/* 账单管理内容区样式 */
+.bills-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 搜索和筛选区域 */
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-box input:focus {
+    border-color: rgb(57, 98, 214);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(57, 98, 214, 0.1);
+}
+
+.search-btn {
+    padding: 8px 16px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #40a9ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+}
+
+.filter-options {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-options select {
+    padding: 8px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.filter-options select:hover {
+    border-color: #40a9ff;
+}
+
+.filter-options select:focus {
+    border-color: #1890ff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 表格样式 */
+.bills-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+th {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: #333;
+}
+
+tr:hover {
+    background-color: #fafafa;
+}
+
+/* 状态标签样式 */
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.status.unpaid {
+    background-color: #fff7e6;
+    color: #fa8c16;
+}
+
+.status.paid {
+    background-color: #f6ffed;
+    color: #52c41a;
+}
+
+.status.overdue {
+    background-color: #fff1f0;
+    color: #ff4d4f;
+}
+
+/* 操作按钮样式 */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background-color: #1890ff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #40a9ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.2);
+}
+
+.delete-btn {
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #ff7875;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(255, 77, 79, 0.2);
+}
+
+/* 分页控件样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    color: #1890ff;
+    border-color: #1890ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(24, 144, 255, 0.1);
+}
+
+.page-btn.active {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: white;
+}
+
+.page-btn:disabled {
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+    color: #d9d9d9;
+    cursor: not-allowed;
+}
+
+.page-ellipsis {
+    color: #666;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1200px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        flex: 1;
+    }
+
+    .filter-options {
+        width: 100%;
+    }
+
+    .filter-options select {
+        flex: 1;
+    }
+
+    .bills-table {
+        margin: 0 -20px;
+    }
+} 

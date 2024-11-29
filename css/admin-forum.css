@@ -1,0 +1,277 @@
+/* 论坛管理内容区样式 */
+.forum-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 搜索和筛选区域 */
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-box input:focus {
+    border-color: rgb(57, 98, 214);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(57, 98, 214, 0.1);
+}
+
+.search-btn {
+    padding: 8px 16px;
+    background-color: rgb(57, 98, 214);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: rgb(47, 84, 235);
+}
+
+.filter-options select {
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 帖子列表样式 */
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.post-item:last-child {
+    border-bottom: none;
+}
+
+/* 用户信息样式 */
+.post-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 帖子内容样式 */
+.post-content {
+    flex: 1;
+}
+
+.post-title {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.post-text {
+    margin: 0 0 15px 0;
+    color: #666;
+    line-height: 1.6;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* 状态标签样式 */
+.post-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.post-status.pending {
+    background-color: #fff7e6;
+    color: #fa8c16;
+}
+
+.post-status.approved {
+    background-color: #f6ffed;
+    color: #52c41a;
+}
+
+.post-status.rejected {
+    background-color: #fff1f0;
+    color: #ff4d4f;
+}
+
+/* 操作按钮样式 */
+.post-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 80px;
+}
+
+.approve-btn, .reject-btn, .delete-btn {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.approve-btn {
+    background-color: #52c41a;
+    color: white;
+}
+
+.approve-btn:hover:not(:disabled) {
+    background-color: #389e0d;
+}
+
+.reject-btn {
+    background-color: #faad14;
+    color: white;
+}
+
+.reject-btn:hover:not(:disabled) {
+    background-color: #d48806;
+}
+
+.delete-btn {
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.delete-btn:hover:not(:disabled) {
+    background-color: #ff7875;
+}
+
+.approve-btn:disabled,
+.reject-btn:disabled {
+    background-color: #d9d9d9;
+    cursor: not-allowed;
+}
+
+/* 分页控件样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: rgb(57, 98, 214);
+    color: rgb(57, 98, 214);
+}
+
+.page-btn.active {
+    background-color: rgb(57, 98, 214);
+    border-color: rgb(57, 98, 214);
+    color: white;
+}
+
+.page-btn:disabled {
+    background-color: #f5f5f5;
+    color: #d9d9d9;
+    cursor: not-allowed;
+}
+
+.page-ellipsis {
+    color: #666;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1200px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        flex: 1;
+    }
+
+    .filter-options {
+        width: 100%;
+    }
+
+    .filter-options select {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .post-item {
+        flex-direction: column;
+    }
+
+    .post-user {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .post-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+} 

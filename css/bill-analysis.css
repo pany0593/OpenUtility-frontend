@@ -1,0 +1,169 @@
+/* 分析内容区样式 */
+.analysis-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* 导出按钮样式 */
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background-color: rgb(57, 98, 214);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.export-btn:hover {
+    background-color: rgb(47, 84, 235);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+
+/* 图表容器样式 */
+.chart-container {
+    display: flex;
+    gap: 20px;
+}
+
+.chart {
+    height: 300px;
+    flex: 1;
+}
+
+/* 分析信息样式 */
+.analysis-info {
+    width: 200px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item .label {
+    display: block;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.info-item .value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.value.increase {
+    color: #52c41a;
+}
+
+.value.decrease {
+    color: #ff4d4f;
+}
+
+/* 图表控件样式 */
+.chart-controls select {
+    padding: 6px 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 建议列表样式 */
+.suggestion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suggestion-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.icon-tip {
+    width: 24px;
+    height: 24px;
+    background: url('../assets/images/tip-icon.png') no-repeat center;
+    background-size: contain;
+}
+
+.suggestion-content h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.suggestion-content p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1200px) {
+    .chart-container {
+        flex-direction: column;
+    }
+    
+    .analysis-info {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .info-item {
+        margin-bottom: 0;
+        text-align: center;
+    }
+} 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户列表 - 校园水电管家</title>
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/admin-users.css" as="style">
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin-users.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="admin.html">管理主页</a></li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">用户管理</a>
+                    <ul>
+                        <li class="active"><a href="admin-users.html">用户列表</a></li>
+                        <li><a href="admin-user-edit.html">编辑用户</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">水电费管理</a>
+                    <ul>
+                        <li><a href="admin-bills.html">账单管理</a></li>
+                        <li><a href="admin-bill-entry.html">账单导入</a></li>
+                        <li><a href="admin-bill-review.html">账单复查</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">系统管理</a>
+                    <ul>
+                        <li><a href="admin-announcements.html">公告管理</a></li>
+                        <li><a href="admin-forum.html">论坛管理</a></li>
+                        
+                        <li><a href="admin-report.html">举报管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>用户列表</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="管理员头像" class="avatar" loading="lazy">
+                <span class="username">管理员</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 用户列表内容区 -->
+        <div class="users-container">
+            <!-- 搜索和筛选 -->
+            <div class="panel filter-section">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索用户..." aria-label="搜索用户">
+                    <button class="search-btn">搜索</button>
+                </div>
+                <div class="filter-options">
+                    <select id="buildingFilter">
+                        <option value="all">全部宿舍楼</option>
+                        <option value="1">1号楼</option>
+                        <option value="2">2号楼</option>
+                        <option value="3">3号楼</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="all">全部状态</option>
+                        <option value="active">已激活</option>
+                        <option value="inactive">未激活</option>
+                        <option value="locked">已锁定</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 用户列表表格 -->
+            <div class="panel users-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>姓名</th>
+                            <th>宿舍楼号</th>
+                            <th>宿舍号</th>
+                            <th>手机号</th>
+                            <th>邮箱</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>张三</td>
+                            <td>1号楼</td>
+                            <td>101</td>
+                            <td>138****5678</td>
+                            <td>zhangsan@example.com</td>
+                            <td><span class="status active">已激活</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn">编辑</button>
+                                    <button class="delete-btn">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>李四</td>
+                            <td>2号楼</td>
+                            <td>205</td>
+                            <td>139****1234</td>
+                            <td>lisi@example.com</td>
+                            <td><span class="status inactive">未激活</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn">编辑</button>
+                                    <button class="delete-btn">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 更多用户数据... -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="pagination">
+                <button class="page-btn" disabled>上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-btn">10</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/admin-users.js" defer></script>
+</body>
+</html> 

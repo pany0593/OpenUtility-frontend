@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水电费分析 - 校园水电管家</title>
+
+    <!-- DNS 预解析 -->
+    <link rel="dns-prefetch" href="https://cdn.bootcdn.net">
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/bill-analysis.css" as="style">
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bill-analysis.css">
+
+    <!-- 延迟加载 ECharts 资源 -->
+    <script src="js/echarts.min.js" defer></script>
+    <script src="js/bill-analysis.js" defer></script>
+
+    <!-- 引入 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="main.html">首页</a></li>
+                <li class="submenu ">
+                    <a href="#">水电管理</a>
+                    <ul>
+                        <li><a href="bill-history.html">历史水电费账单</a></li>
+                        <li><a href="bill-payment.html">水电费缴纳</a></li>
+                        <li class="active"><a href="bill-analysis.html">水电费分析</a></li>
+                        <li><a href="bill-preset.html">水电费预设置</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#">校园水电论坛</a>
+                    <ul>
+                        <li><a href="forum-posts.html">帖子</a></li>
+                        <li><a href="forum-post.html">发帖</a></li>
+                    </ul>
+                </li>
+                <li><a href="feedback.html">反馈</a></li>
+                <li><a href="announcement.html">公告</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="settings.html">设置</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>校园水电管家</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
+                <span class="username">张三</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 分析内容区 -->
+        <div class="analysis-container">
+            <!-- 本月费用分析 -->
+            <div class="panel current-analysis">
+                <div class="panel-header">
+                    <h3>本月水电费分析</h3>
+                    <button class="export-btn" title="导出分析报告">
+                        <i class="icon-export"></i>
+                        导出报告
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <div id="monthPieChart" class="chart"></div>
+                    <div class="analysis-info">
+                        <div class="info-item">
+                            <span class="label">总费用</span>
+                            <span class="value">¥150.00</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">环比变化</span>
+                            <span class="value increase">+5.6%</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">同比变化</span>
+                            <span class="value decrease">-3.2%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 历史费用趋势 -->
+            <div class="panel history-trend">
+                <div class="panel-header">
+                    <h3>费用变化趋势</h3>
+                    <div class="chart-controls">
+                        <select id="timeRange">
+                            <option value="6">近6个月</option>
+                            <option value="12">近12个月</option>
+                            <option value="24">近24个月</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="trendBarChart" class="chart"></div>
+            </div>
+
+            <!-- 分析建议 -->
+            <div class="panel suggestions">
+                <h3>节能建议</h3>
+                <div class="suggestion-list">
+                    <div class="suggestion-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <div class="suggestion-content">
+                            <h4>用电高峰提醒</h4>
+                            <p>您的用电高峰集中在晚上8-10点，建议错峰使用大功率电器。</p>
+                        </div>
+                    </div>
+                    <div class="suggestion-item">
+                        <i class="fas fa-tint"></i>
+                        <div class="suggestion-content">
+                            <h4>节水建议</h4>
+                            <p>本月用水量较上月增加15%，请注意检查是否存在漏水现象。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

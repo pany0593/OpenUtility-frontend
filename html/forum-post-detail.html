@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 校园水电管家</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/forum-post-detail.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="main.html">首页</a></li>
+                <li class="submenu">
+                    <a href="#">水电管理</a>
+                    <ul>
+                        <li><a href="bill-history.html">历史水电费账单</a></li>
+                        <li><a href="bill-payment.html">水电费缴纳</a></li>
+                        <li><a href="bill-analysis.html">水电费分析</a></li>
+                        <li><a href="bill-preset.html">水电费预设置</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">校园水电论坛</a>
+                    <ul>
+                        <li class="active"><a href="forum-posts.html">帖子</a></li>
+                        <li><a href="forum-post.html">发帖</a></li>
+                    </ul>
+                </li>
+                <li><a href="feedback.html">反馈</a></li>
+                <li><a href="announcement.html">公告</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="settings.html">设置</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>帖子详情</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
+                <span class="username">张三</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <div class="post-detail-container">
+            <!-- 帖子内容 -->
+            <div class="panel post-content">
+                <div class="post-header">
+                    <h1 class="post-title"></h1>
+                    <div class="post-meta">
+                        <span class="author"></span>
+                        <span class="time"></span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="post-text"></div>
+                </div>
+                <div class="post-actions">
+                    <button class="like-btn">
+                        <i class="like-icon"></i>
+                        <span class="like-count">0</span>
+                    </button>
+                    <button class="comment-btn" onclick="showCommentModal()">查看评论</button>
+                </div>
+            </div>
+
+            <!-- 评论弹窗 -->
+            <div class="comment-modal" id="commentModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>评论区</h3>
+                        <button class="close-btn" onclick="hideCommentModal()">&times;</button>
+                    </div>
+                    
+                    <!-- 评论列表 -->
+                    <div class="comment-list"></div>
+
+                    <!-- 评论输入框 -->
+                    <div class="comment-form">
+                        <textarea id="commentContent" placeholder="写下你的评论..."></textarea>
+                        <button class="submit-comment">发表评论</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="js/forum-post-detail.js"></script>
+</body>
+</html>
