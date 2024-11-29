@@ -5,41 +5,39 @@ on:
     branches: [ "master" ]  # 仅当 master 分支有提交时触发
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4  # 检出当前的仓库代码
 
-    # 打包前端文件为压缩包
-    - name: Create frontend package
-      run: |
-        # 创建压缩包，包含 css, html 和 js 文件
-        tar -czf frontend-package.tar.gz --exclude='.git' ./css ./html ./js
-
     # 部署到 ECS
-    - name: Deploy to ECS
+    - name: Deploy frontend to ECS
       env:
         ECS_HOST: ${{ secrets.ECS_HOST }}         # ECS 的公网 IP
         ECS_USER: ${{ secrets.ECS_USER }}         # SSH 用户名
         ECS_KEY: ${{ secrets.ECS_KEY }}           # SSH 私钥
-        APP_PATH: "/home/openutility_frontend"             # ECS 上的目标路径
+        APP_PATH: "/home/openutility_frontend"    # ECS 上的目标路径
       run: |
         # 添加私钥到 SSH 配置
         echo "${ECS_KEY}" > ecs_key.pem
         chmod 600 ecs_key.pem
+
         # 使用 ssh-keyscan 信任 ECS 主机
         mkdir -p ~/.ssh
         ssh-keyscan -H $ECS_HOST >> ~/.ssh/known_hosts
-        # 上传压缩包到 ECS
-        scp -i ecs_key.pem frontend-package.tar.gz $ECS_USER@$ECS_HOST:$APP_PATH
-        # 登录到 ECS 并解压文件
-        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST << 'EOF'
-        # 解压文件到目标目录
-        mkdir -p $APP_PATH/frontend  # 创建目标文件夹（如果不存在的话）
-        tar -xzf $APP_PATH/frontend-package.tar.gz -C $APP_PATH/frontend
-        # 可选步骤：删除压缩包（如果不再需要）
-        rm $APP_PATH/frontend-package.tar.gz
+
+        # 确保远程路径存在
+        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST "mkdir -p $APP_PATH"
+
+        # 将本地仓库内容传输到远程服务器
+        scp -r -i ecs_key.pem ./css ./html ./js $ECS_USER@$ECS_HOST:$APP_PATH
+
+        # 可选：清理远程目标文件夹中多余的旧文件
+        ssh -i ecs_key.pem $ECS_USER@$ECS_HOST -tt<< EOF
+        # 确保目标路径只保留最新的内容
+        cd $APP_PATH
+        ls
         exit
         EOF
