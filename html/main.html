@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园水电管家 - 主页</title>
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <!-- 异步加载图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js" defer></script>
+</head>
+<body>
+    <!-- 添加加载指示器 -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="layout">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo.png" 
+                     alt="校园水电管家LOGO" 
+                     width="160" 
+                     height="70"
+                     loading="eager"
+                     decoding="async">
+                <h2>校园水电管家</h2>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li class="active"><a href="main.html">首页</a></li>
+                    <li class="submenu">
+                        <a href="#">水电管理</a>
+                        <ul>
+                            <li><a href="bill-history.html">历史水电费账单</a></li>
+                            <li><a href="bill-payment.html">水电费缴纳</a></li>
+                            <li><a href="bill-analysis.html">水电费分析</a></li>
+                            <li><a href="bill-preset.html">水电费预设置</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#">校园水电论坛</a>
+                        <ul>
+                            <li><a href="forum-posts.html">帖子</a></li>
+                            <li><a href="forum-post.html">发帖</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="feedback.html">反馈</a></li>
+                    <li><a href="announcement.html">公告</a></li>
+                    <li><a href="ranking.html">排行榜</a></li>
+                    <li><a href="settings.html">设置</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="top-bar">
+                <h1>校园水电管家</h1>
+                <div class="user-info">
+                    <img src="assets/images/avatar.png" 
+                         alt="用户头像" 
+                         class="avatar"
+                         width="40" 
+                         height="40"
+                         loading="eager"
+                         decoding="async">
+                    <span class="username">用户</span>
+                    <button class="logout-btn">退出登录</button>
+                </div>
+            </header>
+
+            <!-- 数据展示区 -->
+            <div class="dashboard">
+                <!-- 左上角板块：当月水电费使用情况 -->
+                <div class="panel current-usage">
+                    <h3>当月水电费使用情况</h3>
+                    <div class="usage-table">
+                        <table>
+                            <tr>
+                                <th>水费</th>
+                                <th>电费</th>
+                                <th>总费用</th>
+                            </tr>
+                            <tr>
+                                <td>¥50.00</td>
+                                <td>¥100.00</td>
+                                <td>¥150.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="usagePieChart" class="chart"></div>
+                </div>
+
+                <!-- 右上角板块：历史水电费对比 -->
+                <div class="panel history-compare">
+                    <h3>历史水电费对比</h3>
+                    <div class="compare-table">
+                        <table>
+                            <tr>
+                                <th></th>
+                                <th>水费</th>
+                                <th>电费</th>
+                                <th>总费用</th>
+                            </tr>
+                            <tr>
+                                <td>今年本月</td>
+                                <td>¥50.00</td>
+                                <td>¥100.00</td>
+                                <td>¥150.00</td>
+                            </tr>
+                            <tr>
+                                <td>去年本月</td>
+                                <td>¥45.00</td>
+                                <td>¥90.00</td>
+                                <td>¥135.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="historyBarChart" class="chart"></div>
+                </div>
+
+                <!-- 左下角板块：公告 -->
+                <div class="panel announcement">
+                    <h3>公告</h3>
+                    <div class="announcement-list">
+                        <div class="announcement-item">
+                            <h4>关于调整水电费收费标准的通知</h4>
+                            <p>2024.03.20</p>
+                            <p>为了更好地服务广大师生，经研究决定...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右下角板块：论坛 -->
+                <div class="panel forum">
+                    <h3>论坛</h3>
+                    <div class="forum-list">
+                        <div class="forum-item">
+                            <h4>分享一些节约用电的小技巧</h4>
+                            <p>2024.03.19</p>
+                            <p>大家好，我总结了一些实用的节电方法...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 使用defer属性延迟执行JavaScript -->
+    <script src="js/main.js" defer></script>
+</body>
+</html> 

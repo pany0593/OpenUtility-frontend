@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公告管理 - 校园水电管家</title>
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/admin-announcements.css" as="style">
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin-announcements.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="admin.html">管理主页</a></li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">用户管理</a>
+                    <ul>
+                        <li><a href="admin-users.html">用户列表</a></li>
+                        <li><a href="admin-user-edit.html">编辑用户</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">水电费管理</a>
+                    <ul>
+                        <li><a href="admin-bills.html">账单管理</a></li>
+                        <li><a href="admin-bill-entry.html">账单导入</a></li>
+                        <li><a href="admin-bill-review.html">账单复查</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">系统管理</a>
+                    <ul>
+                        <li class="active"><a href="admin-announcements.html">公告管理</a></li>
+                        <li><a href="admin-forum.html">论坛管理</a></li>
+                        
+                        <li><a href="admin-report.html">举报管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>公告管理</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="管理员头像" class="avatar" loading="lazy">
+                <span class="username">管理员</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 公告管理内容区 -->
+        <div class="announcements-container">
+            <!-- 搜索和操作栏 -->
+            <div class="panel action-section">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索公告..." aria-label="搜索公告">
+                    <button class="search-btn">搜索</button>
+                </div>
+                <button class="publish-btn" onclick="location.href='admin-announcement-publish.html'">
+                    <i class="icon-publish"></i>
+                    发布公告
+                </button>
+            </div>
+
+            <!-- 公告列表 -->
+            <div class="panel announcements-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>公告标题</th>
+                            <th>公告内容</th>
+                            <th>发布时间</th>
+                            <th>发布人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>水电费调整通知</td>
+                            <td>根据最新政策，从下月起水电费单价将进行调整...</td>
+                            <td>2024-03-15 14:30</td>
+                            <td>管理员</td>
+                            <td>
+                                <button class="delete-btn">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>系统维护通知</td>
+                            <td>系统将于本周六凌晨2:00-4:00进行例行维护...</td>
+                            <td>2024-03-14 16:45</td>
+                            <td>管理员</td>
+                            <td>
+                                <button class="delete-btn">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="pagination">
+                <button class="page-btn" disabled>上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-btn">10</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/admin-announcements.js" defer></script>
+</body>
+</html> 
