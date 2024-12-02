@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 发送注册请求
         try {
-            const response = await fetch('http://ty9c9v.natappfree.cc/users/register', {
+            const response = await fetch('http://bqzmts.natappfree.cc/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

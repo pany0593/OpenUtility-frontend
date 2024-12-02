@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 发送登录请求
         try {
-            const response = await fetch('http://ty9c9v.natappfree.cc/users/login', {
+            const response = await fetch('http://bqzmts.natappfree.cc/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

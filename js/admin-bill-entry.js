@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // 发起请求
-        fetch("http://s5j7wq.natappfree.cc/bill/add", requestOptions)
+        fetch("http://bqzmts.natappfree.cc", requestOptions)
             .then(response => response.text())
             .then(result => console.log("Response:", result))
             .catch(error => console.error("Error:", error));
