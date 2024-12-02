@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>举报管理 - 校园水电管家</title>
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/admin-report.css" as="style">
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin-report.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="admin.html">管理主页</a></li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">用户管理</a>
+                    <ul>
+                        <li><a href="admin-users.html">用户列表</a></li>
+                        <li><a href="admin-user-edit.html">编辑用户</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">水电费管理</a>
+                    <ul>
+                        <li><a href="admin-bills.html">账单管理</a></li>
+                        <li><a href="admin-bill-entry.html">账单导入</a></li>
+                        <li><a href="admin-bill-review.html">账单复查</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">系统管理</a>
+                    <ul>
+                        <li><a href="admin-announcements.html">公告管理</a></li>
+                        <li><a href="admin-forum.html">论坛管理</a></li>
+                        
+                        <li class="active"><a href="admin-report.html">举报管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>举报管理</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="管理员头像" class="avatar" loading="lazy">
+                <span class="username">管理员</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 举报管理内容区 -->
+        <div class="report-container">
+            <!-- 搜索和筛选 -->
+            <div class="panel filter-section">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索举报..." aria-label="搜索举报">
+                    <button class="search-btn">搜索</button>
+                </div>
+                <div class="filter-options">
+                    <select id="statusFilter">
+                        <option value="all">全部状态</option>
+                        <option value="pending">待处理</option>
+                        <option value="processed">已处理</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 举报列表 -->
+            <div class="panel report-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>举报人</th>
+                            <th>举报帖子标题</th>
+                            <th>举报帖子内容</th>
+                            <th>举报时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>张三</td>
+                            <td>关于水费计算的疑问</td>
+                            <td>这个帖子内容涉及不当言论...</td>
+                            <td>2024-03-15 14:30</td>
+                            <td><span class="status pending">待处理</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="delete-post-btn">删除帖子</button>
+                                    <button class="delete-comment-btn">删除评论</button>
+                                    <button class="delete-report-btn">删除举报</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>李四</td>
+                            <td>电费使用情况分析</td>
+                            <td>评论区存在不友善言论...</td>
+                            <td>2024-03-14 16:45</td>
+                            <td><span class="status processed">已处理</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="delete-post-btn" disabled>删除帖子</button>
+                                    <button class="delete-comment-btn" disabled>删除评论</button>
+                                    <button class="delete-report-btn" disabled>删除举报</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="pagination">
+                <button class="page-btn" disabled>上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-btn">10</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/admin-report.js" defer></script>
+</body>
+</html> 

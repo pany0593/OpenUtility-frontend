@@ -1,0 +1,178 @@
+/* 缴费内容区样式 */
+.payment-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.panel h3 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+}
+
+th {
+    background-color: rgb(57, 98, 214, 0.1);
+    font-weight: 600;
+    color: #333;
+}
+
+td {
+    color: #666;
+}
+
+/* 状态标签样式 */
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.status.paid {
+    background-color: #f6ffed;
+    color: #52c41a;
+    border: 1px solid #b7eb8f;
+}
+
+.status.unpaid {
+    background-color: #fff2f0;
+    color: #ff4d4f;
+    border: 1px solid #ffccc7;
+}
+
+/* 按钮样式 */
+.pay-btn, .detail-btn {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.pay-btn {
+    background-color: rgb(57, 98, 214);
+    color: white;
+}
+
+.pay-btn:hover {
+    background-color: rgb(47, 84, 235);
+}
+
+.detail-btn {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.detail-btn:hover {
+    background-color: #e8e8e8;
+}
+
+/* 支付方式样式 */
+.methods-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.method-item {
+    position: relative;
+    cursor: pointer;
+    padding: 20px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.method-item:hover {
+    border-color: rgb(57, 98, 214);
+}
+
+.method-item img {
+    width: 60px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.method-item:hover img {
+    transform: scale(1.05);
+}
+
+.qr-code {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 20px);
+    transform: translateY(-50%);
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 100;
+}
+
+.method-item:hover .qr-code {
+    display: block;
+}
+
+.qr-code img {
+    width: 100px;
+    height: 100px;
+}
+
+.qr-code::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .method-item {
+        width: 100%;
+        text-align: center;
+    }
+
+    .qr-code {
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 10px;
+    }
+
+    .qr-code::before {
+        left: 50%;
+        top: -6px;
+        transform: translateX(-50%);
+        border-color: transparent transparent white transparent;
+    }
+} 

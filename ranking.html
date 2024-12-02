@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排行榜 - 校园水电管家</title>
+
+    <!-- 优先加载关键 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/ranking.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="main.html">首页</a></li>
+                <li class="submenu">
+                    <a href="#">水电管理</a>
+                    <ul>
+                        <li><a href="bill-history.html">历史水电费账单</a></li>
+                        <li><a href="bill-payment.html">水电费缴纳</a></li>
+                        <li><a href="bill-analysis.html">水电费分析</a></li>
+                        <li><a href="bill-preset.html">水电费预设置</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#">校园水电论坛</a>
+                    <ul>
+                        <li><a href="forum-posts.html">帖子</a></li>
+                        <li><a href="forum-post.html">发帖</a></li>
+                    </ul>
+                </li>
+                <li><a href="feedback.html">反馈</a></li>
+                <li><a href="announcement.html">公告</a></li>
+                <li class="active"><a href="ranking.html">排行榜</a></li>
+                <li><a href="settings.html">设置</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>校园水电管家</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
+                <span class="username">张三</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 排行榜内容区 -->
+        <div class="ranking-container">
+            <!-- 筛选区域 -->
+            <div class="panel filter-section">
+                <div class="filter-options">
+                    <select id="buildingFilter">
+                        <option value="all">全部宿舍楼</option>
+                        <option value="1">1号楼</option>
+                        <option value="2">2号楼</option>
+                        <option value="3">3号楼</option>
+                    </select>
+                    <select id="timeFilter">
+                        <option value="month">本月</option>
+                        <option value="lastMonth">上月</option>
+                        <option value="semester">本学期</option>
+                    </select>
+                    <select id="typeFilter">
+                        <option value="total">总费用</option>
+                        <option value="water">用水量</option>
+                        <option value="electric">用电量</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 排行榜表格 -->
+            <div class="panel ranking-table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>宿舍楼号</th>
+                        <th>宿舍号</th>
+                        <th>用水量(吨)</th>
+                        <th>用电量(度)</th>
+                        <th>总费用(元)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="highlight">
+                        <td><span class="rank rank-1">1</span></td>
+                        <td>1号楼</td>
+                        <td>101</td>
+                        <td>2.5</td>
+                        <td>98.6</td>
+                        <td>¥120.50</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank rank-2">2</span></td>
+                        <td>2号楼</td>
+                        <td>205</td>
+                        <td>2.8</td>
+                        <td>102.3</td>
+                        <td>¥128.40</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank rank-3">3</span></td>
+                        <td>1号楼</td>
+                        <td>302</td>
+                        <td>3.0</td>
+                        <td>105.8</td>
+                        <td>¥135.20</td>
+                    </tr>
+                    <!-- 更多行... -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页控件 -->
+            <div class="pagination">
+                <button class="page-btn" disabled>上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-btn">10</button>
+                <button class="page-btn">下一页</button>
+            </div>
+
+            <!-- 说明信息 -->
+            <div class="panel ranking-info">
+                <h3>排名说明</h3>
+                <ul>
+                    <li>排名每日更新一次，更新时间为凌晨3:00。</li>
+                    <li>总费用排名按照用水量与用电量的总费用进行降序排列。</li>
+                    <li>绿色表示用量较低表现优秀，红色表示用量偏高需注意节能。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/ranking.js" defer></script>
+</body>
+</html>

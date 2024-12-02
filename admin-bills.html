@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账单管理 - 校园水电管家</title>
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/admin-bills.css" as="style">
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/admin-bills.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="admin.html">管理主页</a></li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">用户管理</a>
+                    <ul>
+                        <li><a href="admin-users.html">用户列表</a></li>
+                        <li><a href="admin-user-edit.html">编辑用户</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">水电费管理</a>
+                    <ul>
+                        <li class="active"><a href="admin-bills.html">账单管理</a></li>
+                        <li><a href="admin-bill-entry.html">账单导入</a></li>
+                        <li><a href="admin-bill-review.html">账单复查</a></li>
+
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">系统管理</a>
+                    <ul>
+                        <li><a href="admin-announcements.html">公告管理</a></li>
+                        <li><a href="admin-forum.html">论坛管理</a></li>
+                        
+                        <li><a href="admin-report.html">举报管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>账单管理</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="管理员头像" class="avatar" loading="lazy">
+                <span class="username">管理员</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 账单管理内容区 -->
+        <div class="bills-container">
+            
+
+            <!-- 账单列表 -->
+            <div class="panel bills-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>账单编号</th>
+                            <th>年份</th>
+                            <th>月份</th>
+                            <th>天数</th>
+                            <th>楼号</th>
+                            <th>宿舍号</th>
+                            <th>用电量(度)</th>
+                            <th>电费(元)</th>
+                            <th>用水量(吨)</th>
+                            <th>水费(元)</th>
+                            <th>总费用(元)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billTableBody">
+                        <!-- 表格内容将由JavaScript动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+
+            
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/admin-bills.js" defer></script>
+</body>
+</html> 

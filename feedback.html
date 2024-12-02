@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反馈 - 校园水电管家</title>
+
+    <!-- 优先加载关键 CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/feedback.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="main.html">首页</a></li>
+                <li class="submenu">
+                    <a href="#">水电管理</a>
+                    <ul>
+                        <li><a href="bill-history.html">历史水电费账单</a></li>
+                        <li><a href="bill-payment.html">水电费缴纳</a></li>
+                        <li><a href="bill-analysis.html">水电费分析</a></li>
+                        <li><a href="bill-preset.html">水电费预设置</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#">校园水电论坛</a>
+                    <ul>
+                        <li><a href="forum-posts.html">帖子</a></li>
+                        <li><a href="forum-post.html">发帖</a></li>
+                    </ul>
+                </li>
+                <li class="active"><a href="feedback.html">反馈</a></li>
+                <li><a href="announcement.html">公告</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="settings.html">设置</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>校园水电管家</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
+                <span class="username">张三</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <!-- 反馈内容区 -->
+        <div class="feedback-container">
+            <!-- 快捷操作 -->
+            <div class="panel quick-actions">
+                <h3>快捷操作</h3>
+                <div class="action-buttons">
+                    <button class="action-btn review-btn">
+                        <i class="icon-review"></i>
+                        申请水电费复查
+                    </button>
+                    <button class="action-btn invoice-btn">
+                        <i class="icon-invoice"></i>
+                        开具水电费发票
+                    </button>
+                </div>
+            </div>
+
+            <!-- 反馈表单 -->
+            <div class="panel feedback-form">
+                <h3>提交反馈</h3>
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackTitle">反馈标题</label>
+                        <input type="text" id="feedbackTitle" placeholder="请输入反馈标题" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackContent">反馈内容</label>
+                        <textarea id="feedbackContent" rows="6" placeholder="请详细描述您的问题或建议" required></textarea>
+                        <div class="content-footer">
+                            <span class="char-count">0/500</span>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="submit-btn">提交反馈</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 历史反馈 -->
+            <div class="panel feedback-history">
+                <h3>历史反馈</h3>
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-header">
+                            <h4>水表读数异常</h4>
+                            <span class="status pending">处理中</span>
+                        </div>
+                        <div class="history-content">
+                            <p>本月水表读数似乎有误，希望能够核实一下。</p>
+                        </div>
+                        <div class="history-footer">
+                            <span class="time">2024-03-18 14:30</span>
+                            <button class="detail-btn">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-header">
+                            <h4>电费计算问题</h4>
+                            <span class="status resolved">已解决</span>
+                        </div>
+                        <div class="history-content">
+                            <p>上月电费计算有误，经核实已修正。感谢反馈！</p>
+                        </div>
+                        <div class="history-footer">
+                            <span class="time">2024-03-15 09:45</span>
+                            <button class="detail-btn">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 延迟加载 JS -->
+<script src="js/feedback.js" defer></script>
+</body>
+</html> 
