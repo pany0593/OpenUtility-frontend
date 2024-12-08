@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // 发起请求
-        fetch("http://127.0.0.1:4523/m1/5398300-5071939-default/bill/add", requestOptions)
+        fetch("120.24.176.40:8080/bill/add", requestOptions)
             .then(response => response.text())
             .then(result => console.log("Response:", result))
             .catch(error => console.error("Error:", error));

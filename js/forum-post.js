@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // 发送请求到后端接口
-            const response = await fetch("http://ty9c9v.natappfree.cc/post/article_add", requestOptions);
+            const response = await fetch("120.24.176.40:8080/post/article_add", requestOptions);
             const data = await response.json();
             
             if (data.base.code == 0) {
