@@ -48,12 +48,12 @@ async function initializeBillsTable() {
         redirect: 'follow'
      };
      
-     fetch("120.24.176.40:80/bill/getAllData", requestOptions)
+     fetch("120.24.176.40:80/api/bill/getAllData", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
           // 使用 fetch 获取数据
-          const response = await fetch("120.24.176.40:8080/bill/getAllData");
+          const response = await fetch("120.24.176.40:80/api/bill/getAllData");
 
           // 等待 response.json() 获取 JSON 数据
           const data1 = await response.json();
@@ -145,7 +145,7 @@ function bindButtonEvents() {
                 };
                 
                 // 发送删除请求
-                fetch("120.24.176.40:80/bill/delete", requestOptions)
+                fetch("120.24.176.40:80/api/bill/delete", requestOptions)
                     .then(response => response.json()) // 确保返回的是 JSON 格式的数据
                     .then(result => {
                         // 判断是否删除成功

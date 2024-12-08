@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 发送登录请求
         try {
-            const response = await fetch('120.24.176.40:80/users/login', {
+            const response = await fetch('120.24.176.40:80/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
