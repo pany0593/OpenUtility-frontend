@@ -77,10 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // 发送请求到后端接口
-            const response = await fetch("http://120.24.176.40:80/api/post/article_add", requestOptions);
+            const response = await fetch("120.24.176.40:8080/post/article_add", requestOptions);
             const data = await response.json();
             
-            if (data.base.code != 0) {
+            if (data.base.code == 0) {
                // console.log(data.data); // 打印获取的数据
                 alert('发布成功！');
                 window.location.href = 'forum-posts.html';  // 发布成功后跳转到帖子列表

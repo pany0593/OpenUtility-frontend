@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (layout) layout.classList.add('loaded');
 
     // 初始化加载账单数据
-    initializeBillsTable();
 
+    initializeBillsTable();
+    
     // 搜索功能
     const searchBtn = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-box input');
@@ -18,13 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 筛选功能
-    const buildingFilter = document.getElementById('buildingFilter');
-    const monthFilter = document.getElementById('monthFilter');
-    const statusFilter = document.getElementById('statusFilter');
-
-    [buildingFilter, monthFilter, statusFilter].forEach(filter => {
-        filter.addEventListener('change', filterBills);
-    });
 
     // 分页功能
     const pageButtons = document.querySelectorAll('.page-btn:not([disabled])');
@@ -47,134 +41,128 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 初始化账单表格
+// 初始化账单表格
 async function initializeBillsTable() {
-    try {
-        // 从后端获取账单数据
-        const response = await fetch('/bill/getData', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+     };
+     
+     fetch("120.24.176.40:8080/bill/getAllData", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+          // 使用 fetch 获取数据
+          const response = await fetch("120.24.176.40:8080/bill/getAllData");
 
-        const data = await response.json();
-        
-        if (data.code === 0) {
-            // 渲染账单数据
-            renderBillsTable(data.data);
-        } else {
-            throw new Error(data.message || '获取账单数据失败');
-        }
-    } catch (err) {
-        console.error('初始化账单表格失败:', err);
-        alert('加载账单数据失败,请稍后重试');
-    }
+          // 等待 response.json() 获取 JSON 数据
+          const data1 = await response.json();
+          // 渲染账单表格
+         // data1.data.id='5';
+          renderBillsTable(data1.data);
 }
 
 // 渲染账单表格
-function renderBillsTable(bills) {
+function renderBillsTable(data1) {
     const tableBody = document.getElementById('billTableBody');
-    tableBody.innerHTML = bills.map(bill => `
-        <tr data-id="${bill.id}">
-            <td data-field="id">${bill.id}</td>
-            <td data-field="year">${bill.year}</td>
-            <td data-field="month">${bill.month}</td>
-            <td data-field="days">${bill.days}</td>
-            <td data-field="building">${bill.building}</td>
-            <td data-field="dormitory">${bill.dormitory}</td>
-            <td data-field="electricity_usage">${bill.electricity_usage}</td>
-            <td data-field="electricity_cost">${bill.electricity_cost}</td>
-            <td data-field="water_uasge">${bill.water_uasge}</td>
-            <td data-field="water_cost">${bill.water_cost}</td>
-            <td data-field="total_cost">${bill.total_cost}</td>
-            <td>
-                <div class="action-buttons">
-                    <button class="edit-btn" onclick="editBill('${bill.id}')">编辑</button>
-                    <button class="delete-btn" onclick="deleteBill('${bill.id}')">删除</button>
-                </div>
-            </td>
-        </tr>
-    `).join('');
+    
+    // 如果 data1 为空对象或不是对象，显示没有数据的提示
+    if (typeof data1 !== 'object' || data1 === null || Object.keys(data1).length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="12">没有找到账单数据</td></tr>`;
+        return;
+    }
 
-    // 重新绑定按钮事件
+    // 清空表格内容
+    tableBody.innerHTML = '';
+
+    // 直接显示 data1 中的数据
+
+            // 创建一个新的表格行
+            const row = document.createElement('tr');
+
+            // 填充表格行
+            row.innerHTML = `
+                <td data-field="id">${data1.id}</td>
+                <td data-field="year">${data1.year}</td>
+                <td data-field="month">${data1.month}</td>
+                <td data-field="days">${data1.days}</td>
+                <td data-field="building">${data1.building}</td>
+                <td data-field="dormitory">${data1.dormitory}</td>
+                <td data-field="electricity_usage">${data1.electricity_usage}</td>
+                <td data-field="electricity_cost">${data1.electricity_cost}</td>
+                <td data-field="water_usage">${data1.water_usage}</td>
+                <td data-field="water_cost">${data1.water_cost}</td>
+                <td data-field="total_cost">${data1.total_cost}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" data-id="${data1.id}">编辑</button>
+                        <button class="delete-btn" data-id="${data1.id}">删除</button>
+                    </div>
+                </td>
+            `;
+            
+            // 将新行添加到表格中
+            tableBody.appendChild(row);
+
+    // 绑定按钮事件（如果需要）
     bindButtonEvents();
 }
 
-// 绑定按钮事件
 function bindButtonEvents() {
-    // 编辑按钮
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const billId = this.closest('tr').dataset.id;
-            editBill(billId);
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    // 为编辑按钮绑定点击事件
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const billId = this.getAttribute('data-id');
+            alert(`编辑账单 ID: ${billId}`);
+            // 在这里你可以添加编辑功能的代码
         });
     });
 
-    // 删除按钮
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const billId = this.closest('tr').dataset.id;
-            deleteBill(billId);
+    // 为删除按钮绑定点击事件
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const billId = this.getAttribute('data-id');
+            // 找到该删除按钮所在的行元素 (假设账单项在 <tr> 中)
+            const billRow = this.closest('tr'); // 查找最近的 <tr> 元素
+
+            if (confirm(`确定要删除账单 ID: ${billId} 吗？`)) {
+                // 构建请求头和请求体
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({
+                    "id": billId
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+                
+                // 发送删除请求
+                fetch("120.24.176.40:8080/bill/delete", requestOptions)
+                    .then(response => response.json()) // 确保返回的是 JSON 格式的数据
+                    .then(result => {
+                        // 判断是否删除成功
+                        if (result.base.code === 0) { // 假设成功的响应码是 0
+                            billRow.remove(); // 删除该账单项
+                            alert(`账单 ID: ${billId} 删除成功！`);
+                        } else {
+                            alert(`删除失败: ${result.base.message}`); // 如果删除失败
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        billRow.remove();
+                        alert(`删除账单 ID: ${billId} 成功！`);
+                    });
+            }
         });
     });
-}
-
-
-
-// 编辑账单
-function editBill(billId) {
-    console.log('编辑账单:', billId);
-    // 这里添加编辑账单的逻辑
-    window.location.href = `admin-bill-edit.html?id=${billId}`;
-}
-
-// 删除账单
-async function deleteBill(billId) {
-    if (confirm('确定要删除该账单吗？此操作不可恢复。')) {
-        try {
-            // 获取要删除的账单行
-            const row = document.querySelector(`tr[data-id="${billId}"]`);
-            if (!row) {
-                throw new Error('找不到要删除的账单数据');
-            }
-
-            // 构建删除请求的数据
-            const billData = {
-                id: billId,
-                year: parseInt(row.querySelector('[data-field="year"]').textContent),
-                month: parseInt(row.querySelector('[data-field="month"]').textContent),
-                days: parseInt(row.querySelector('[data-field="days"]').textContent),
-                building: parseInt(row.querySelector('[data-field="building"]').textContent),
-                dormitory: parseInt(row.querySelector('[data-field="dormitory"]').textContent),
-                electricity_usage: parseFloat(row.querySelector('[data-field="electricity_usage"]').textContent),
-                electricity_cost: parseFloat(row.querySelector('[data-field="electricity_cost"]').textContent),
-                water_uasge: parseFloat(row.querySelector('[data-field="water_uasge"]').textContent),
-                water_cost: parseFloat(row.querySelector('[data-field="water_cost"]').textContent),
-                total_cost: parseFloat(row.querySelector('[data-field="total_cost"]').textContent)
-            };
-
-            // 发送删除请求
-            const response = await fetch('/bill/delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(billData)
-            });
-
-            const data = await response.json();
-            
-            if (data.code === 0) {
-                // 删除成功,从DOM中移除该行
-                row.remove();
-                alert('账单删除成功！');
-            } else {
-                alert(data.message || '账单删除失败');
-            }
-        } catch (err) {
-            console.error('删除账单失败:', err);
-            alert('删除账单失败,请稍后重试');
-        }
-    }
 }
 
