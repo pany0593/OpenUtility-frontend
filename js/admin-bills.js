@@ -48,7 +48,7 @@ async function initializeBillsTable() {
         redirect: 'follow'
      };
      
-     fetch("120.24.176.40:8080/bill/getAllData", requestOptions)
+     fetch("120.24.176.40:80/bill/getAllData", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -145,7 +145,7 @@ function bindButtonEvents() {
                 };
                 
                 // 发送删除请求
-                fetch("120.24.176.40:8080/bill/delete", requestOptions)
+                fetch("120.24.176.40:80/bill/delete", requestOptions)
                     .then(response => response.json()) // 确保返回的是 JSON 格式的数据
                     .then(result => {
                         // 判断是否删除成功
