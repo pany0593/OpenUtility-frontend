@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 根据文章ID查询文章
 async function searchArticlesById(articleId) {
     try {
-        const response = await fetch(`http://bqzmts.natappfree.cc/post/article_search_by_id?articleId=${articleId}`);
+        const response = await fetch(`http://ty9c9v.natappfree.cc/post/article_search_by_id?articleId=${articleId}`);
         const result = await response.json();
 
         if (result.status === 'success') {
