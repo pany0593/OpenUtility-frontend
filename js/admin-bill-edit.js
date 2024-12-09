@@ -79,21 +79,26 @@ async function loadBillData(billId) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        // 2. 构造请求 URL
-        const url = `http://120.24.176.40:80/api/bill/getData?id=${billId}`;
+        // 2. 构造请求体
+        const requestBody = {
+            id: billId  // 你需要根据后端接口的要求构造 Bill 对象
+        };
 
-        // 3. 发起 GET 请求
+        // 3. 构造请求 URL
+        const url = `http://120.24.176.40:80/api/bill/getData`;
+
+        // 4. 发起 POST 请求
         const response = await fetch(url, {
-            method: 'GET',  // GET 请求
+            method: 'POST',  // 使用 POST 请求
             headers: myHeaders,  // 添加请求头
+            body: JSON.stringify(requestBody),  // 添加请求体
             redirect: 'follow'  // 处理重定向
         });
 
-        // 4. 如果请求成功，解析 JSON 数据
+        // 5. 如果请求成功，解析 JSON 数据
         const data1 = await response.json();
-
         if (data1.base.code === 0) {
-            // 5. 遍历数据，填充表单
+            // 6. 遍历数据，填充表单
             Object.entries(data1.data).forEach(([key, value]) => {
                 const input = document.querySelector(`[name="${key}"]`);
                 if (input) {
@@ -105,9 +110,9 @@ async function loadBillData(billId) {
         }
 
     } catch (err) {
-        // 6. 错误处理
+        // 7. 错误处理
         console.error('加载账单数据失败:', err);
         alert('加载账单数据失败，请稍后重试');
-        // 可以选择导航到上一页：history.back();
     }
 }
+
