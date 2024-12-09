@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const billEditForm = document.getElementById('billEditForm');
 
     // 如果有账单ID,则加载账单数据
-        loadBillData(billId);
+    loadBillData(billId);
     // 自动计算总费用
     function calculateTotal() {
         const waterCost = parseFloat(document.getElementById('waterCost').value) || 0;
@@ -75,25 +75,25 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadBillData(billId) {
     try {
         // 从后端获取账单数据
-        const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId}`, {
+            const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
-        const data = await response.json();
-        data.code=0;
-        if (data.code === 0) {
+        const data1 = await response.json();
+        data1.base.code=0;
+        if (data1.base.code === 0) {
             // 填充表单
-            Object.entries(data.data).forEach(([key, value]) => {
+            Object.entries(data1.data).forEach(([key, value]) => {
                 const input = document.querySelector(`[name="${key}"]`);
                 if (input) {
                     input.value = value;
                 }
             });
         } else {
-            throw new Error(data.message || '获取账单数据失败');
+            throw new Error(data1.message || '获取账单数据失败');
         }
     } catch (err) {
         console.error('加载账单数据失败:', err);
