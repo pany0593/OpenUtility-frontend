@@ -38,10 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 初始化账单表格
 // 初始化账单表格
 async function initializeBillsTable() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-     };
+
      
    
           // 使用 fetch 获取数据
