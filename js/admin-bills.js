@@ -116,7 +116,8 @@ function bindButtonEvents() {
             const billId = this.getAttribute('data-billId');  // 获取账单 ID
             alert(`编辑账单 ID: ${billId}`);
             // 跳转到 admin-bill-edit.html 并通过 URL 参数传递账单 ID
-            window.location.href = `admin-bill-edit.html?billId=${billId}`;
+            const targetURL = `admin-bill-edit.html?billId=${billId}`;
+            window.location.href = targetURL;
             // 在这里你可以添加编辑功能的代码
         });
     });

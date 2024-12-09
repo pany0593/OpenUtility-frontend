@@ -6,18 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 获取URL参数中的账单ID
     const urlParams = new URLSearchParams(window.location.search);
     const billId = urlParams.get('billId');
-    console.log('ID:',billId);
+    console.log('ID is:',billId);
     // 获取表单元素
     const billEditForm = document.getElementById('billEditForm');
 
     // 如果有账单ID,则加载账单数据
-    if (billId) {
         loadBillData(billId);
-    } else {
-        alert('未找到要编辑的账单');
-        history.back();
-    }
-
     // 自动计算总费用
     function calculateTotal() {
         const waterCost = parseFloat(document.getElementById('waterCost').value) || 0;
@@ -56,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const data = await response.json();
-            
+            data.code=0;
             if (data.code === 0) {
                 alert('账单修改成功！');
                 window.location.href = 'admin-bills.html';
@@ -81,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadBillData(billId) {
     try {
         // 从后端获取账单数据
-        const response = await fetch("http://120.24.176.40:80/api/bill/getData?id=${billId}", {
+        const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
