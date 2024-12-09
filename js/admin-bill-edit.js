@@ -78,7 +78,7 @@ async function loadBillData(billId1) {
         myHeaders.append("Content-Type", "application/json");
         
         var raw = JSON.stringify({
-           "id": "billId1"
+           "id": "bill3628359835364443180"
         });
         var requestOptions = {
            method: 'POST',
