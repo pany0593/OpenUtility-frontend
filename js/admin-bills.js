@@ -11,12 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchBtn = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-box input');
 
-    searchBtn.addEventListener('click', function() {
-        const searchText = searchInput.value.trim();
-        if (searchText) {
-            searchBills(searchText);
-        }
-    });
+   
 
     // 筛选功能
 
@@ -43,15 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // 初始化账单表格
 // 初始化账单表格
 async function initializeBillsTable() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-     };
+
      
-     fetch("http://120.24.176.40:80/api/bill/getAllData", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+   
           // 使用 fetch 获取数据
           const response = await fetch("http://120.24.176.40:80/api/bill/getAllData");
 
