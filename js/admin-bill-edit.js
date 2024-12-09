@@ -110,9 +110,9 @@ async function loadBillData(billId) {
         }
 
     } catch (err) {
-        // 7. 错误处理
+        //// 7. 错误处理
         console.error('加载账单数据失败:', err);
-        alert('加载账单数据失败，请稍后重试');
+        alert('加载账单数据失败，请稍后重试3CI');
     }
 }
 
