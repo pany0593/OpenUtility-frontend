@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // 初始化账单表格
 async function initializeBillsTable() {
     try {
-        const response = await fetch("http://120.24.176.40:80/api/bill/getAllDatas");
+        const response = await fetch("http://120.24.176.40:80/api/bill/getAllData");
         const data1 = await response.json();
         console.log(data1.data);
         // 渲染账单表格
-        data1.data.id='Hello';
+       // data1.data.id='Hello';
         renderBillsTable(data1.data);  // 假设 data1.data 是对象类型
     } catch (error) {
         console.error("Error fetching data:", error);
