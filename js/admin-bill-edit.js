@@ -77,22 +77,18 @@ async function loadBillData(billId1) {
         // 1. 请求头配置
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
-        // 2. 构建请求的 URL，并传递 billId1 作为查询参数
-        const url = `http://120.24.176.40:80/api/bill/getData?id=${billId1}`;
-
-        // 3. 发送 GET 请求
-        const response = await fetch(url, {
+        const raw = JSON.stringify({
+            id: billId1
+        });
+        var requestOptions = {
             method: 'GET',
             headers: myHeaders,
-            redirect: 'follow',
-        });
-
+            body: raw,
+            redirect: 'follow'
+         };
+         
+        const response = fetch("http://120.24.176.40:80/api/bill/getAllData", requestOptions);
         // 4. 检查响应是否成功
-        if (!response.ok) {
-            throw new Error(`请求失败，状态码：${response.status}`);
-        }
-
         // 5. 如果请求成功，解析返回的 JSON 数据
         const data1 = await response.json();
         console.log(data1.data);
