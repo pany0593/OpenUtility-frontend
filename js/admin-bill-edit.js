@@ -80,18 +80,18 @@ async function loadBillData(billId) {
         myHeaders.append("Content-Type", "application/json");
 
         // 2. 构造请求体
-        const requestBody = {
-            "id": "billId"  // 你需要根据后端接口的要求构造 Bill 对象
-        };
+        var raw = JSON.stringify({
+            "id": "bill2957300039508574542"
+         });
 
         // 3. 构造请求 URL
         const url = `http://120.24.176.40:80/api/bill/getData`;
 
         // 4. 发起 POST 请求
         const response = await fetch(url, {
-            method: 'POST',  // 使用 POST 请求
+            method: 'GET',  // 使用 POST 请求
             headers: myHeaders,  // 添加请求头
-            body: JSON.stringify(requestBody),  // 添加请求体
+            body: raw,  // 添加请求体
             redirect: 'follow'  // 处理重定向
         });
 
