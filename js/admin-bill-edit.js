@@ -81,7 +81,7 @@ async function loadBillData(billId1) {
             id: billId1
         });
         var requestOptions = {
-            method: 'GET',
+            method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
