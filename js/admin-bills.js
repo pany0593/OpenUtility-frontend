@@ -53,7 +53,7 @@ async function initializeBillsTable() {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
           // 使用 fetch 获取数据
-          const response = await fetch("120.24.176.40:80/api/bill/getAllData");
+          const response = await fetch("http://120.24.176.40:80/api/bill/getAllData");
 
           // 等待 response.json() 获取 JSON 数据
           const data1 = await response.json();

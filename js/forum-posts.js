@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 根据文章ID查询文章
 async function searchArticlesById(articleId) {
     try {
-        const response = await fetch(`120.24.176.40:80/api/post/article_get=${articleId}`);
+        const response = await fetch(`http://120.24.176.40:80/api/post/article_get=${articleId}`);
         const result = await response.json();
 
         if (result.status === 'success') {
