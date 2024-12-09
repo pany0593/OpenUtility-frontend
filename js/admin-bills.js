@@ -36,22 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 初始化账单表格
-// 初始化账单表格
 async function initializeBillsTable() {
-
-     
-   
-          // 使用 fetch 获取数据
-          const response = await fetch("http://120.24.176.40:80/api/bill/getAllData");
-
-          // 等待 response.json() 获取 JSON 数据
-          const data1 = await response.json();
-          // 渲染账单表格
-         // data1.data.id='5';
-          renderBillsTable(data1.data);
+    try {
+        const response = await fetch("http://120.24.176.40:80/api/bill/getAllDatas");
+        const data1 = await response.json();
+        console.log(data1.data);
+        // 渲染账单表格
+        data1.data.id='Hello';
+        renderBillsTable(data1.data);  // 假设 data1.data 是对象类型
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
 }
 
-// 渲染账单表格
 function renderBillsTable(data1) {
     const tableBody = document.getElementById('billTableBody');
     
@@ -68,11 +65,13 @@ function renderBillsTable(data1) {
     tableBody.innerHTML = '';
 
     // 将对象的值转换为数组
-    const bill = Object.values(data1);
+    const bills = Object.values(data1);
 
     // 调试：检查 bills 数组
+    console.log('bills:', bills);
 
     // 遍历 bills 数组，创建表格行
+    bills.forEach(bill => {
         console.log('bill:', bill); // 打印每个 bill 对象，确认它的结构
 
         // 创建一个新的表格行
@@ -80,27 +79,28 @@ function renderBillsTable(data1) {
         
         // 填充表格行，确保每个字段有默认值
         row.innerHTML = `
-            <td data-field="id">${bill[0] }</td>
-            <td data-field="year">${bill[1] || 'N/A'}</td>
-            <td data-field="month">${bill[2] || 'N/A'}</td>
-            <td data-field="days">${bill[3] || 'N/A'}</td>
-            <td data-field="building">${bill[4] || 'N/A'}</td>
-            <td data-field="dormitory">${bill[5] || 'N/A'}</td>
-            <td data-field="electricity_usage">${bill[6] || 'N/A'}</td>
-            <td data-field="electricity_cost">${bill[7] || 'N/A'}</td>
-            <td data-field="water_usage">${bill[8] || 'N/A'}</td>
-            <td data-field="water_cost">${bill[9] || 'N/A'}</td>
-            <td data-field="total_cost">${bill[10] || 'N/A'}</td>
+            <td data-field="id">${bill.id || 'N/A'}</td>
+            <td data-field="year">${bill.year || 'N/A'}</td>
+            <td data-field="month">${bill.month || 'N/A'}</td>
+            <td data-field="days">${bill.days || 'N/A'}</td>
+            <td data-field="building">${bill.building || 'N/A'}</td>
+            <td data-field="dormitory">${bill.dormitory || 'N/A'}</td>
+            <td data-field="electricity_usage">${bill.electricity_usage || 'N/A'}</td>
+            <td data-field="electricity_cost">${bill.electricity_cost || 'N/A'}</td>
+            <td data-field="water_usage">${bill.water_usage || 'N/A'}</td>
+            <td data-field="water_cost">${bill.water_cost || 'N/A'}</td>
+            <td data-field="total_cost">${bill.total_cost || 'N/A'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" data-id="${bill[0]}">编辑</button>
-                    <button class="delete-btn" data-id="${bill[0]}">删除</button>
+                    <button class="edit-btn" data-id="${bill.id}">编辑</button>
+                    <button class="delete-btn" data-id="${bill.id}">删除</button>
                 </div>
             </td>
         `;
         
         // 将新行添加到表格中
         tableBody.appendChild(row);
+    });
 
     // 绑定按钮事件（如果需要）
     bindButtonEvents();
