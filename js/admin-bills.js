@@ -145,7 +145,7 @@ function bindButtonEvents() {
                 };
                 
                 // 发送删除请求
-                fetch("120.24.176.40:80/api/bill/delete", requestOptions)
+                fetch("http://120.24.176.40:80/api/bill/delete", requestOptions)
                     .then(response => response.json()) // 确保返回的是 JSON 格式的数据
                     .then(result => {
                         // 判断是否删除成功
