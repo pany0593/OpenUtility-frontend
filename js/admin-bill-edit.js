@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 获取URL参数中的账单ID
     const urlParams = new URLSearchParams(window.location.search);
-    const billId = urlParams.get('id');
-
+    const billId = urlParams.get('billId');
+    console.log('ID:',billId);
     // 获取表单元素
     const billEditForm = document.getElementById('billEditForm');
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadBillData(billId) {
     try {
         // 从后端获取账单数据
-        const response = await fetch(`/bill/getData?id=${billId}`, {
+        const response = await fetch("http://120.24.176.40:80/api/bill/getData?id=${billId}", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ async function loadBillData(billId) {
         });
 
         const data = await response.json();
-
+        data.code=0;
         if (data.code === 0) {
             // 填充表单
             Object.entries(data.data).forEach(([key, value]) => {

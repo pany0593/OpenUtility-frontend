@@ -113,8 +113,10 @@ function bindButtonEvents() {
     // 为编辑按钮绑定点击事件
     editButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const billId = this.getAttribute('data-id');
+            const billId = this.getAttribute('data-billId');  // 获取账单 ID
             alert(`编辑账单 ID: ${billId}`);
+            // 跳转到 admin-bill-edit.html 并通过 URL 参数传递账单 ID
+            window.location.href = `admin-bill-edit.html?billId=${billId}`;
             // 在这里你可以添加编辑功能的代码
         });
     });
