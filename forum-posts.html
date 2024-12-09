@@ -85,9 +85,9 @@
             </div>
 
             <!-- 帖子列表 -->
-            <div class="posts-list">
+            <!-- <div class="posts-list"> -->
                 <!-- 帖子项 -->
-                <div class="post-item" data-id="example-1">
+                <!-- <div class="post-item" data-id="example-1">
                     <div class="post-avatar">
                         <img src="assets/images/avatar.png" alt="用户头像" loading="lazy">
                     </div>
@@ -105,14 +105,25 @@
                         <p class="post-preview">大家好，我总结了一些实用的节电方法，希望对大家有帮助...</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+
+            <!-- 帖子列表 -->
+            <div class="posts-list"></div>
 
             <!-- 分页控件 -->
-            <div class="pagination">
-                <!-- 分页按钮将由 JavaScript 动态生成 -->
-            </div>
+            <div class="pagination"></div>
+
         </div>
     </main>
 </div>
+
+<!-- 页面加载时执行文章列表加载 -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        getArticleList(1, 0); // 默认加载第一页文章，按默认排序
+    });
+</script>
+
 </body>
 </html>
