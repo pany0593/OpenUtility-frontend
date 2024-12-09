@@ -86,13 +86,12 @@ async function loadBillData(billId1) {
            body: raw,
            redirect: 'follow'
         };
-        const response=fetch("http://120.24.176.40:80/api/bill/getData", requestOptions);
+        const response=await fetch("http://120.24.176.40:80/api/bill/getData", requestOptions);
         // 4. 检查响应是否成功
         // 5. 如果请求成功，解析返回的 JSON 数据
         const data1 = await response.json();
+        // 6. 处理返回数据 
         console.log(data1.data);
-
-        // 6. 处理返回数据
         if (data1.base.code === 0) {
             // 遍历并填充表单
             Object.entries(data1.data).forEach(([key, value]) => {
