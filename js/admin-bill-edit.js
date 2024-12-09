@@ -81,7 +81,7 @@ async function loadBillData(billId) {
 
         // 2. 构造请求体
         const requestBody = {
-            id: billId  // 你需要根据后端接口的要求构造 Bill 对象
+            "id": "billId"  // 你需要根据后端接口的要求构造 Bill 对象
         };
 
         // 3. 构造请求 URL
@@ -112,7 +112,7 @@ async function loadBillData(billId) {
     } catch (err) {
         //// 7. 错误处理
         console.error('加载账单数据失败:', err);
-        alert('加载账单数据失败，请稍后重试3CI');
+        alert('加载账单数据失败，请稍后重试');
     }
 }
 
