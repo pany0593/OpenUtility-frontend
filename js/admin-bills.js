@@ -55,8 +55,11 @@ async function initializeBillsTable() {
 function renderBillsTable(data1) {
     const tableBody = document.getElementById('billTableBody');
     
-    // 如果 data1 为空对象或不是对象，显示没有数据的提示
-    if (typeof data1 !== 'object' || data1 === null || Object.keys(data1).length === 0) {
+    // 调试：打印 data1 和 bills，检查结构
+    console.log('data1:', data1);
+
+    // 如果 data1 为空对象，显示没有数据的提示
+    if (typeof data1 !== 'object' || Object.keys(data1).length === 0) {
         tableBody.innerHTML = `<tr><td colspan="12">没有找到账单数据</td></tr>`;
         return;
     }
@@ -64,34 +67,40 @@ function renderBillsTable(data1) {
     // 清空表格内容
     tableBody.innerHTML = '';
 
-    // 直接显示 data1 中的数据
+    // 将对象的值转换为数组
+    const bill = Object.values(data1);
 
-            // 创建一个新的表格行
-            const row = document.createElement('tr');
+    // 调试：检查 bills 数组
 
-            // 填充表格行
-            row.innerHTML = `
-                <td data-field="id">${data1.id}</td>
-                <td data-field="year">${data1.year}</td>
-                <td data-field="month">${data1.month}</td>
-                <td data-field="days">${data1.days}</td>
-                <td data-field="building">${data1.building}</td>
-                <td data-field="dormitory">${data1.dormitory}</td>
-                <td data-field="electricity_usage">${data1.electricity_usage}</td>
-                <td data-field="electricity_cost">${data1.electricity_cost}</td>
-                <td data-field="water_usage">${data1.water_usage}</td>
-                <td data-field="water_cost">${data1.water_cost}</td>
-                <td data-field="total_cost">${data1.total_cost}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="edit-btn" data-id="${data1.id}">编辑</button>
-                        <button class="delete-btn" data-id="${data1.id}">删除</button>
-                    </div>
-                </td>
-            `;
-            
-            // 将新行添加到表格中
-            tableBody.appendChild(row);
+    // 遍历 bills 数组，创建表格行
+        console.log('bill:', bill); // 打印每个 bill 对象，确认它的结构
+
+        // 创建一个新的表格行
+        const row = document.createElement('tr');
+        
+        // 填充表格行，确保每个字段有默认值
+        row.innerHTML = `
+            <td data-field="id">${bill[0] }</td>
+            <td data-field="year">${bill[1] || 'N/A'}</td>
+            <td data-field="month">${bill[2] || 'N/A'}</td>
+            <td data-field="days">${bill[3] || 'N/A'}</td>
+            <td data-field="building">${bill[4] || 'N/A'}</td>
+            <td data-field="dormitory">${bill[5] || 'N/A'}</td>
+            <td data-field="electricity_usage">${bill[6] || 'N/A'}</td>
+            <td data-field="electricity_cost">${bill[7] || 'N/A'}</td>
+            <td data-field="water_usage">${bill[8] || 'N/A'}</td>
+            <td data-field="water_cost">${bill[9] || 'N/A'}</td>
+            <td data-field="total_cost">${bill[10] || 'N/A'}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="edit-btn" data-id="${bill[0]}">编辑</button>
+                    <button class="delete-btn" data-id="${bill[0]}">删除</button>
+                </div>
+            </td>
+        `;
+        
+        // 将新行添加到表格中
+        tableBody.appendChild(row);
 
     // 绑定按钮事件（如果需要）
     bindButtonEvents();
