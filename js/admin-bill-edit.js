@@ -72,20 +72,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 加载账单数据
+// 使用async/await来加载账单数据并填充表单
 async function loadBillData(billId) {
     try {
-        // 从后端获取账单数据
-            const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        // 1. 准备请求的 Headers 和参数
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        // 2. 构造请求 URL
+        const url = `http://120.24.176.40:80/api/bill/getData?id=${billId}`;
+
+        // 3. 发起 GET 请求
+        const response = await fetch(url, {
+            method: 'GET',  // GET 请求
+            headers: myHeaders,  // 添加请求头
+            redirect: 'follow'  // 处理重定向
         });
 
+        // 4. 如果请求成功，解析 JSON 数据
         const data1 = await response.json();
-        data1.base.code=0;
+
         if (data1.base.code === 0) {
-            // 填充表单
+            // 5. 遍历数据，填充表单
             Object.entries(data1.data).forEach(([key, value]) => {
                 const input = document.querySelector(`[name="${key}"]`);
                 if (input) {
@@ -95,9 +103,11 @@ async function loadBillData(billId) {
         } else {
             throw new Error(data1.message || '获取账单数据失败');
         }
+
     } catch (err) {
+        // 6. 错误处理
         console.error('加载账单数据失败:', err);
-        alert('加载账单数据失败,请稍后重试');
-        history.back();
+        alert('加载账单数据失败，请稍后重试');
+        // 可以选择导航到上一页：history.back();
     }
-} 
+}
