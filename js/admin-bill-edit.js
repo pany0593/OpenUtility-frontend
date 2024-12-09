@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ['year', 'month', 'days', 'building', 'dormitory'].forEach(field => {
             billData[field] = parseInt(billData[field]);
         });
-        ['electricity_usage', 'electricity_cost', 'water_uasge', 'water_cost', 'total_cost'].forEach(field => {
+        ['electricity_usage', 'electricity_cost', 'water_usage', 'water_cost', 'total_cost'].forEach(field => {
             billData[field] = parseFloat(billData[field]);
         });
 
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const data = await response.json();
-            data.code=0;
-            if (data.code === 0) {
+            data.base.code=0;
+            if (data.base.code === 0) {
                 alert('账单修改成功！');
                 window.location.href = 'admin-bills.html';
             } else {
