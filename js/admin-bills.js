@@ -48,7 +48,7 @@ async function initializeBillsTable() {
         redirect: 'follow'
      };
      
-     fetch("120.24.176.40:80/api/bill/getAllData", requestOptions)
+     fetch("http://120.24.176.40:80/api/bill/getAllData", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
