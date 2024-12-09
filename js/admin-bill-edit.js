@@ -76,7 +76,7 @@ async function loadBillData(billId1) {
     try {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+        console.log(billId1);
         var raw = JSON.stringify({
            id: billId1
         });
