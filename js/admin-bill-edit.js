@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // 发送更新请求
-            const response = await fetch('/bill/update', {
+            const response = await fetch('http://120.24.176.40/api/bill/update', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

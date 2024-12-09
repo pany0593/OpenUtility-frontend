@@ -92,7 +92,7 @@ function renderBillsTable(data1) {
             <td data-field="total_cost">${bill.total_cost || 'N/A'}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="edit-btn" data-id="${bill.id}">编辑</button>
+                    <button class="edit-btn" data-billId="${bill.id}">编辑</button>
                     <button class="delete-btn" data-id="${bill.id}">删除</button>
                 </div>
             </td>
