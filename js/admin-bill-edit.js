@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('ID is:',billId);
     // 获取表单元素
     loadBillData(billId);
-    
+
     const billEditForm = document.getElementById('billEditForm');
     // 自动计算总费用
     function calculateTotal() {
@@ -74,22 +74,32 @@ document.addEventListener('DOMContentLoaded', function() {
 // 使用async/await来加载账单数据并填充表单
 async function loadBillData(billId1) {
     try {
-        // 1. 准备请求的 Headers 和参数
-       // const myHeaders = new Headers();
-     //   myHeaders.append("Content-Type", "application/json");
+        // 1. 请求头配置
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-        // 2. 构造请求体
+        // 2. 构建请求的 URL，并传递 billId1 作为查询参数
+        const url = `http://120.24.176.40:80/api/bill/getData?id=${billId1}`;
 
-        // 3. 构造请求 URL
+        // 3. 发送 GET 请求
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow',
+        });
 
-        // 4. 发起 POST 请求
-        const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId1}`);
+        // 4. 检查响应是否成功
+        if (!response.ok) {
+            throw new Error(`请求失败，状态码：${response.status}`);
+        }
 
-        // 5. 如果请求成功，解析 JSON 数据
+        // 5. 如果请求成功，解析返回的 JSON 数据
         const data1 = await response.json();
         console.log(data1.data);
+
+        // 6. 处理返回数据
         if (data1.base.code === 0) {
-            // 6. 遍历数据，填充表单
+            // 遍历并填充表单
             Object.entries(data1.data).forEach(([key, value]) => {
                 const input = document.querySelector(`[name="${key}"]`);
                 if (input) {
@@ -101,9 +111,8 @@ async function loadBillData(billId1) {
         }
 
     } catch (err) {
-        //// 7. 错误处理
+        // 7. 错误处理
         console.error('加载账单数据失败:', err);
         alert('加载账单数据失败，请稍后重试');
     }
 }
-
