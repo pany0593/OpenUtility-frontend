@@ -8,10 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const billId = urlParams.get('billId');
     console.log('ID is:',billId);
     // 获取表单元素
-    const billEditForm = document.getElementById('billEditForm');
-
-    // 如果有账单ID,则加载账单数据
     loadBillData(billId);
+    
+    const billEditForm = document.getElementById('billEditForm');
     // 自动计算总费用
     function calculateTotal() {
         const waterCost = parseFloat(document.getElementById('waterCost').value) || 0;
@@ -73,21 +72,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 加载账单数据
 // 使用async/await来加载账单数据并填充表单
-async function loadBillData(billId) {
+async function loadBillData(billId1) {
     try {
         // 1. 准备请求的 Headers 和参数
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+       // const myHeaders = new Headers();
+     //   myHeaders.append("Content-Type", "application/json");
 
         // 2. 构造请求体
 
         // 3. 构造请求 URL
 
         // 4. 发起 POST 请求
-        const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId}`);
+        const response = await fetch(`http://120.24.176.40:80/api/bill/getData?id=${billId1}`);
 
         // 5. 如果请求成功，解析 JSON 数据
         const data1 = await response.json();
+        console.log(data1.data);
         if (data1.base.code === 0) {
             // 6. 遍历数据，填充表单
             Object.entries(data1.data).forEach(([key, value]) => {
