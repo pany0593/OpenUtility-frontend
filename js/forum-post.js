@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('发布成功！');
                 window.location.href = 'forum-posts.html';  // 发布成功后跳转到帖子列表
             } else {
-                alert(data.message || '发布失败');
+                alert(data.message &&'发布失败');
             }
         } catch (err) {
             console.error('发布失败:', err);
