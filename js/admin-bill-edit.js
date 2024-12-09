@@ -74,20 +74,19 @@ document.addEventListener('DOMContentLoaded', function() {
 // 使用async/await来加载账单数据并填充表单
 async function loadBillData(billId1) {
     try {
-        // 1. 请求头配置
-        const myHeaders = new Headers();
+        var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        const raw = JSON.stringify({
-            id: billId1
+        
+        var raw = JSON.stringify({
+           "id": "billId1"
         });
         var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-         };
-         
-        const response = await fetch("http://120.24.176.40:80/api/bill/getAllData", requestOptions);
+           method: 'POST',
+           headers: myHeaders,
+           body: raw,
+           redirect: 'follow'
+        };
+        const response=fetch("http://120.24.176.40:80/api/bill/getData", requestOptions);
         // 4. 检查响应是否成功
         // 5. 如果请求成功，解析返回的 JSON 数据
         const data1 = await response.json();
