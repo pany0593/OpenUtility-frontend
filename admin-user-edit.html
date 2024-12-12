@@ -48,7 +48,7 @@
                         <li><a href="admin-announcements.html">公告管理</a></li>
                         <li><a href="admin-forum.html">论坛管理</a></li>
                         
-                        <li><a href="admin-report.html">举报管理</a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -78,14 +78,7 @@
                             <label for="username">用户名</label>
                             <input type="text" id="username" name="username" required>
                         </div>
-                        <div class="form-group">
-                            <label for="realName">姓名</label>
-                            <input type="text" id="realName" name="realName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentId">学号</label>
-                            <input type="text" id="studentId" name="studentId" required>
-                        </div>
+                        
                     </div>
 
                     <!-- 宿舍信息 -->
@@ -93,13 +86,9 @@
                         <h3>宿舍信息</h3>
                         <div class="form-group">
                             <label for="building">宿舍楼号</label>
-                            <select id="building" name="building" required>
-                                <option value="">请选择宿舍楼</option>
-                                <option value="1">1号楼</option>
-                                <option value="2">2号楼</option>
-                                <option value="3">3号楼</option>
-                            </select>
+                            <input type="number" id="building" name="building" min="1">
                         </div>
+                        
                         <div class="form-group">
                             <label for="roomNumber">宿舍号</label>
                             <input type="text" id="roomNumber" name="roomNumber" required>
@@ -109,10 +98,7 @@
                     <!-- 联系方式 -->
                     <div class="form-section">
                         <h3>联系方式</h3>
-                        <div class="form-group">
-                            <label for="phone">手机号</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="email">邮箱</label>
                             <input type="email" id="email" name="email" required>
@@ -127,14 +113,7 @@
                             <input type="password" id="password" name="password">
                             <span class="tip">不修改请留空</span>
                         </div>
-                        <div class="form-group">
-                            <label for="status">账号状态</label>
-                            <select id="status" name="status" required>
-                                <option value="active">已激活</option>
-                                <option value="inactive">未激活</option>
-                                <option value="locked">已锁定</option>
-                            </select>
-                        </div>
+                        
                     </div>
 
                     <!-- 表单按钮 -->

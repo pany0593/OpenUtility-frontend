@@ -1,98 +1,133 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // 显示页面内容
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadUsers();
+
     const layout = document.querySelector('.layout');
     if (layout) layout.classList.add('loaded');
 
-    // 搜索功能
+    // 查询功能
     const searchBtn = document.querySelector('.search-btn');
-    const searchInput = document.querySelector('.search-box input');
-
-    searchBtn.addEventListener('click', function() {
-        const searchText = searchInput.value.trim();
-        if (searchText) {
-            searchUsers(searchText);
-        }
-    });
-
-    // 筛选功能
-    const buildingFilter = document.getElementById('buildingFilter');
-    const statusFilter = document.getElementById('statusFilter');
-
-    [buildingFilter, statusFilter].forEach(filter => {
-        filter.addEventListener('change', filterUsers);
-    });
-
-    // 编辑按钮
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const userId = row.cells[0].textContent;
-            window.location.href = `admin-user-edit.html?id=${userId}`;
-        });
-    });
-
-    // 删除按钮
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const userId = row.cells[0].textContent;
-            deleteUser(userId);
-        });
-    });
-
-    // 分页功能
-    const pageButtons = document.querySelectorAll('.page-btn:not([disabled])');
-    pageButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (!this.classList.contains('active')) {
-                document.querySelector('.page-btn.active')?.classList.remove('active');
-                this.classList.add('active');
-                loadUsersPage(this.textContent);
-            }
-        });
-    });
-
-    // 退出登录
-    document.querySelector('.logout-btn')?.addEventListener('click', () => {
-        if (confirm('确定要退出登录吗？')) {
-            window.location.href = 'admin-login.html';
-        }
+    searchBtn.addEventListener('click', async function() {
+        const building = document.getElementById('buildingInput').value;
+        const dormitory = document.getElementById('dormitoryInput').value;
+        await searchUsers(building, dormitory);
     });
 });
 
-// 搜索用户
-function searchUsers(keyword) {
-    console.log('搜索用户:', keyword);
-    // 这里添加搜索逻辑
-}
+// 获取所有用户
+async function loadUsers() {
+    try {
+        const response = await fetch('/users/admin', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token') // 假设使用 token 进行身份验证
+            }
+        });
 
-// 筛选用户
-function filterUsers() {
-    const filters = {
-        building: document.getElementById('buildingFilter').value,
-        status: document.getElementById('statusFilter').value
-    };
-    console.log('筛选条件:', filters);
-    // 这里添加筛选逻辑
+        const data = await response.json();
+
+        if (data.base.code === 0) {
+            const users = data.data; // 假设返回的数据结构中包含用户数组
+            const userTableBody = document.getElementById('userTableBody');
+            userTableBody.innerHTML = ''; // 清空表格
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.building}</td>
+                    <td>${user.dormitory}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="editUser(${user.id})">编辑</button>
+                            <button class="delete-btn" onclick="deleteUser(${user.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                userTableBody.appendChild(row);
+            });
+        } else {
+            alert(data.base.message || '获取用户列表失败');
+        }
+    } catch (err) {
+        console.error('获取用户列表失败:', err);
+        alert('获取用户列表失败，请稍后重试');
+    }
 }
 
 // 编辑用户
 function editUser(userId) {
-    console.log('编辑用户:', userId);
-    // 这里添加编辑用户的逻辑
     window.location.href = `admin-user-edit.html?id=${userId}`;
 }
 
 // 删除用户
 function deleteUser(userId) {
     if (confirm('确定要删除该用户吗？此操作不可恢复。')) {
-        console.log('删除用户:', userId);
         // 这里添加删除用户的逻辑
+        console.log('删除用户:', userId);
+        // 发送删除请求
+        fetch(`/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.base.code === 0) {
+                alert('用户删除成功！');
+                loadUsers(); // 重新加载用户列表
+            } else {
+                alert(data.base.message || '删除用户失败');
+            }
+        })
+        .catch(err => {
+            console.error('删除用户失败:', err);
+            alert('删除用户失败，请稍后重试');
+        });
     }
 }
 
-// 加载指定页码的用户数据
-function loadUsersPage(page) {
-    console.log('加载第', page, '页用户数据');
-    // 这里添加分页加载逻辑
+// 查询用户
+async function searchUsers(building, dormitory) {
+    try {
+        const response = await fetch(`/users/by-room?building=${building}&dormitory=${dormitory}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token') // 假设使用 token 进行身份验证
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.base.code === 0) {
+            const users = data.data; // 假设返回的数据结构中包含用户数组
+            const userTableBody = document.getElementById('userTableBody');
+            userTableBody.innerHTML = ''; // 清空表格
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.building}</td>
+                    <td>${user.dormitory}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="editUser(${user.id})">编辑</button>
+                            <button class="delete-btn" onclick="deleteUser(${user.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                userTableBody.appendChild(row);
+            });
+        } else {
+            alert(data.base.message || '查询用户失败');
+        }
+    } catch (err) {
+        console.error('查询用户失败:', err);
+        alert('查询用户失败，请稍后重试');
+    }
 } 

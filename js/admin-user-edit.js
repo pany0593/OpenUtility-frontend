@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // 显示页面内容
     const layout = document.querySelector('.layout');
     if (layout) layout.classList.add('loaded');
@@ -9,19 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 如果有用户ID，则加载用户数据
     if (userId) {
-        loadUserData(userId);
-        document.querySelector('.top-bar h1').textContent = '编辑用户';
+        await loadUserData(userId);
     } else {
-        document.querySelector('.top-bar h1').textContent = '添加用户';
+        alert('未找到要编辑的用户');
+        history.back();
     }
 
     // 表单提交处理
     const userForm = document.getElementById('userForm');
-    userForm.addEventListener('submit', function(e) {
+    userForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        if (validateForm()) {
-            saveUser();
-        }
+        // 获取表单数据并处理
+        // ...
     });
 
     // 退出登录
@@ -33,32 +32,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 加载用户数据
-function loadUserData(userId) {
-    // 这里模拟从后端获取用户数据
-    const userData = {
-        username: 'zhangsan',
-        realName: '张三',
-        studentId: '2021001',
-        building: '1',
-        roomNumber: '101',
-        phone: '13812345678',
-        email: 'zhangsan@example.com',
-        status: 'active'
-    };
+async function loadUserData(userId) {
+    try {
+        const response = await fetch(`/users/${userId}`);
+        const data = await response.json();
 
-    // 填充表单
-    Object.keys(userData).forEach(key => {
-        const input = document.getElementById(key);
-        if (input) {
-            input.value = userData[key];
+        if (data.code === 0) {
+            const user = data.data;
+            document.getElementById('username').value = user.username;
+            document.getElementById('building').value = user.building;
+            document.getElementById('dormitory').value = user.dormitory;
+            document.getElementById('email').value = user.email;
+        } else {
+            throw new Error(data.message || '获取用户数据失败');
         }
-    });
+    } catch (err) {
+        console.error('加载用户数据失败:', err);
+        alert('加载用户数据失败，请稍后重试');
+        history.back();
+    }
 }
 
 // 表单验证
 function validateForm() {
     const username = document.getElementById('username').value.trim();
-    const phone = document.getElementById('phone').value.trim();
+    
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
@@ -67,10 +65,6 @@ function validateForm() {
         return false;
     }
 
-    if (!/^1[3-9]\d{9}$/.test(phone)) {
-        alert('请输入正确的手机号');
-        return false;
-    }
 
     if (!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)) {
         alert('请输入正确的邮箱地址');

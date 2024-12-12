@@ -134,6 +134,7 @@ async function searchBills() {
     try {
         // 获取表单数据
         const formData = {
+            
             year: parseInt(document.getElementById('year').value) || undefined,
             month: parseInt(document.getElementById('month').value) || undefined,
             days: parseInt(document.getElementById('days').value) || undefined,
@@ -152,20 +153,20 @@ async function searchBills() {
         const queryString = new URLSearchParams(formData).toString();
 
         // 发送查询请求
-        const response = await fetch(`http://120.24.176.40:80/api/bill/getDataByDormitory?${queryString}`, {
-            method: 'POST',
+        const response = await fetch(`/bill/getData?${queryString}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
-        const data1 = await response.json();
-        console.log(data1);
-        if (data1.base.code === 0) {
+        const data = await response.json();
+
+        if (data.code === 0) {
             // 渲染查询结果
-            renderResults(data1.data);
+            renderResults(data.data);
         } else {
-            alert(data1.message || '查询失败');
+            alert(data.message || '查询失败');
         }
     } catch (err) {
         console.error('查询失败:', err);
