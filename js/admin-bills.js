@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchBtn = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-box input');
 
-   
 
     // 筛选功能
 
@@ -38,7 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // 初始化账单表格
 async function initializeBillsTable() {
     try {
-        const response = await fetch("http://120.24.176.40:80/api/bill/getAllData");
+        var requestOptions = {
+            method: 'POST',
+            redirect: 'follow'
+         };
+        const response = await fetch("http://120.24.176.40:80/api/bill/getAllData", requestOptions);
         const data1 = await response.json();
         console.log(data1.data);
         // 渲染账单表格
