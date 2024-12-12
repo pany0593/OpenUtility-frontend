@@ -26,10 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
+        const building = parseInt(document.getElementById('building').value, 10); // 转为整数
+        const dormitory = parseInt(document.getElementById('dormitory').value, 10); // 转为整数
 
         // 简单表单验证：确保用户名和密码非空
         if (!username || !password) {
             alert('请输入用户名和密码');
+            return;
+        }
+
+        if (isNaN(building) || isNaN(dormitory)) {
+            alert('请输入有效的楼号和宿舍号');
             return;
         }
 
@@ -43,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({ 
                     username, 
                     password,
-                    "building": "1",
-                    "dormitory": "1"
+                    building,
+                    dormitory
                 }),
             });
 
@@ -63,8 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 将用户信息存储到 localStorage
                     localStorage.setItem('userInfo', JSON.stringify(userInfo));
                     console.log("用户信息已存储到 localStorage:", userInfo);
-                    
-
                 } else {
                     console.error("无法解码 token 中的用户信息");
                 }
