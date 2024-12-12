@@ -31,37 +31,74 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const response = await fetch("http://120.24.176.40:80/api/users/login", requestOptions);
             
-            // 确保我们解析JSON并检查状态
-            const data1 = await response.json(); // 解析JSON数据
-            console.log(data1);
-            console.log(data1.base.code);
-            if (data1.base.code === 0) {
-                // 登录成功，跳转到管理员主页
-                const token = data1.data; // 获取 JWT token
-                console.log(token);
+            const result = await response.json();
+
+            if (result.base.code === 0) {
+                const token = result.data; // 获取 JWT token
+
                 // 存储 token 到 localStorage
                 localStorage.setItem("token", token);
-
-                // 解码 token 并提取用户信息
-                const userInfo = decodeJwtToken(token);
                 
-                if (userInfo) {
-                    // 将用户信息存储到 localStorage
-                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                    console.log("用户信息已存储到 localStorage:", userInfo);
-                } else {
-                    console.error("无法解码 token 中的用户信息");
-                }
-                window.location.href = 'admin.html';
+
+
+                
+    if (token) {
+        // 使用 fetch 发送 GET 请求
+        fetch("http://120.24.176.40:80/api/users/profile", {
+            method: "GET",
+            headers: {
+            Authorization: `Bearer ${token}`, // 将 token 添加到请求头
+            "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+            if (response.ok) {
+                return response.json(); // 解析响应为 JSON
             } else {
-                alert('用户名或密码错误！');
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            })
+            .then((data) => {
+            if (data.base && data.base.code === 0) {
+                // console.log("用户信息:", data.data); // 打印用户信息
+
+                const userInfo = data.data;
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                
+                const storedUserInfo = localStorage.getItem('userInfo');
+                if (storedUserInfo) {
+                    console.log("用户信息已存储到 localStorage:", storedUserInfo);
+                    window.location.href = "admin.html";
+                } 
+
+
+            }  else {
+                console.error("响应错误信息:", data.base ? data.base.message : "未知错误");
+            }
+            })
+            .catch((error) => {
+            console.error("请求失败:", error.message);
+            });
+
+        } else {
+        console.error("未找到 Token，请先登录。");
+        }
+
+            } else {
+                // 登录失败
+                alert(result.base.message || '登录失败');
             }
         } catch (err) {
             console.error('登录失败:', err);
             alert('登录失败，请稍后重试');
         }
     });
-    
+
+
+
+
+
     /**
      * 解码 JWT token 并提取用户信息（处理中文字符乱码问题）
      * @param {string} token - JWT token
@@ -89,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return null;
         }
     }
+
+
 
     /**
      * 安全 Base64 解码，解决 UTF-8 字符乱码问题
