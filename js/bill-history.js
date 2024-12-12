@@ -134,7 +134,6 @@ async function searchBills() {
     try {
         // 获取表单数据
         const formData = {
-            id: document.getElementById('billId').value.trim() || undefined,
             year: parseInt(document.getElementById('year').value) || undefined,
             month: parseInt(document.getElementById('month').value) || undefined,
             days: parseInt(document.getElementById('days').value) || undefined,
@@ -153,20 +152,20 @@ async function searchBills() {
         const queryString = new URLSearchParams(formData).toString();
 
         // 发送查询请求
-        const response = await fetch(`/bill/getData?${queryString}`, {
-            method: 'GET',
+        const response = await fetch(`http://120.24.176.40:80/api/bill/getDataByDormitory?${queryString}`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
-        const data = await response.json();
-
-        if (data.code === 0) {
+        const data1 = await response.json();
+        console.log(data1);
+        if (data1.base.code === 0) {
             // 渲染查询结果
-            renderResults(data.data);
+            renderResults(data1.data);
         } else {
-            alert(data.message || '查询失败');
+            alert(data1.message || '查询失败');
         }
     } catch (err) {
         console.error('查询失败:', err);
@@ -186,7 +185,7 @@ function renderResults(bills) {
     // 生成表格行HTML
     const rowsHtml = bills.map(bill => `
         <tr>
-            <td>${bill.id || '-'}</td>
+            
             <td>${bill.year || '-'}</td>
             <td>${bill.month || '-'}</td>
             <td>${bill.days || '-'}</td>

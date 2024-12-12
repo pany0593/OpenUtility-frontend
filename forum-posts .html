@@ -3,15 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>帖子详情 - 校园水电管家</title>
+    <title>论坛 - 校园水电管家</title>
+
+    <!-- DNS预解析 -->
+    <link rel="dns-prefetch" href="https://cdn.bootcdn.net">
+
+    <!-- 预加载关键 CSS -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="css/forum-posts.css" as="style">
+
+    <!-- 预加载关键图片 -->
+    <link rel="preload" href="assets/images/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/images/avatar.png" as="image" fetchpriority="high">
+
+    <!-- 加载 CSS -->
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/forum-post-detail.css">
+    <link rel="stylesheet" href="css/forum-posts.css">
+
+    <!-- 延迟加载 JavaScript -->
+    <script src="js/forum-posts.js" defer></script>
 </head>
 <body>
 <div class="layout">
     <!-- 侧边栏 -->
     <aside class="sidebar">
         <div class="logo">
+            <!-- 添加懒加载 -->
             <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
             <h2>校园水电管家</h2>
         </div>
@@ -28,9 +45,10 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0)">校园水电论坛</a>
+                    <a href="#">校园水电论坛</a>
                     <ul>
                         <li class="active"><a href="forum-posts.html">帖子</a></li>
+
                         <li><a href="forum-post.html">发帖</a></li>
                     </ul>
                 </li>
@@ -46,60 +64,44 @@
     <main class="main-content">
         <!-- 顶部栏 -->
         <header class="top-bar">
-            <h1>帖子详情</h1>
+            <h1>校园水电管家</h1>
             <div class="user-info">
+                <!-- 懒加载头像图片 -->
                 <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
                 <span class="username">张三</span>
                 <button class="logout-btn">退出登录</button>
             </div>
         </header>
 
-        <div class="post-detail-container">
-            <!-- 帖子内容 -->
-            <div class="panel post-content">
-                <div class="post-header">
-                    <h1 class="post-title">加载中...</h1>
-                    <div class="post-meta">
-                        <span class="author">作者：加载中...</span>
-                        <span class="time">发布时间：加载中...</span>
-                    </div>
+        <!-- 论坛内容区 -->
+        <div class="forum-container">
+            <!-- 顶部操作栏 -->
+            <div class="forum-header">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索帖子..." aria-label="搜索帖子">
+                    <button class="search-btn">搜索</button>
                 </div>
-                <div class="post-body">
-                    <div class="post-text">加载中...</div>
-                </div>
-                <div class="post-actions">
-                    <button class="like-btn">
-                        <i class="like-icon"></i>
-                        <span class="like-count">0</span>
-                    </button>
-                    <!-- 修改按钮，确保传递 currentArticleId -->
-                    <button class="comment-btn" onclick="showCommentModal(window.currentArticleId)">查看评论</button>
-
-                </div>
+                <button class="new-post-btn" onclick="window.location.href='forum-post.html'">发布新帖</button>
             </div>
 
-            <!-- 评论弹窗 -->
-            <div class="comment-modal" id="commentModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>评论区</h3>
-                        <button class="close-btn" onclick="hideCommentModal()">&times;</button>
-                    </div>
-                    
-                    <!-- 评论列表 -->
-                    <div class="comment-list">加载评论中...</div>
 
-                    <!-- 评论输入框 -->
-                    <div class="comment-form">
-                        <textarea id="commentContent" placeholder="写下你的评论..."></textarea>
-                        <button class="submit-comment">发表评论</button>
-                    </div>
-                </div>
-            </div>
+
+            <!-- 帖子列表 -->
+            <div class="posts-list"></div>
+
+            <!-- 分页控件 -->
+            <div class="pagination"></div>
+
         </div>
     </main>
 </div>
 
-<script src="js/forum-post-detail.js"></script>
+<!-- 页面加载时执行文章列表加载 -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        getArticleList(1, 0); // 默认加载第一页文章，按默认排序
+    });
+</script>
+
 </body>
 </html>

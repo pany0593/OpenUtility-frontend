@@ -346,7 +346,7 @@ input:checked + .slider:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom:20px;
 }
 
 .modal-header h3 {
@@ -374,7 +374,7 @@ input:checked + .slider:before {
 }
 
 .modal-form .form-group input {
-    width: 100%;
+    width: 90%;
     padding: 8px 12px;
     border: 1px solid #e8e8e8;
     border-radius: 4px;
