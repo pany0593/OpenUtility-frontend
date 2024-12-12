@@ -16,17 +16,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 // 获取所有用户
 async function loadUsers() {
     try {
-        const response = await fetch('/users/admin', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token') // 假设使用 token 进行身份验证
-            }
-        });
-
-        const data = await response.json();
-
-        if (data.base.code === 0) {
-            const users = data.data; // 假设返回的数据结构中包含用户数组
+        const token = localStorage.getItem("token");
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${token}`);
+        
+        var requestOptions = {
+           method: 'GET',
+           headers: headers,
+           redirect: 'follow'
+        };
+        const response = await fetch("http://120.24.176.40:80/api/users/admin", requestOptions);
+        const data1 = await response.json();
+        console.log(data1);
+        if (data1.base.code === 0) {
+            const users = Object.values(data1.data);; // 假设返回的数据结构中包含用户数组
             const userTableBody = document.getElementById('userTableBody');
             userTableBody.innerHTML = ''; // 清空表格
 
@@ -48,7 +51,7 @@ async function loadUsers() {
                 userTableBody.appendChild(row);
             });
         } else {
-            alert(data.base.message || '获取用户列表失败');
+            alert(data1.base.message || '获取用户列表失败');
         }
     } catch (err) {
         console.error('获取用户列表失败:', err);

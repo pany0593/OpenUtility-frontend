@@ -18,94 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (layout) {
         layout.classList.add('loaded');
     }
-
-    // 初始化图表
-    initializeChart();
-
     // 添加窗口大小改变事件监听器
     addResizeListener();
 
     // 退出登录功能
     setupLogoutHandler();
 });
-
-// 初始化 ECharts 图表
-function initializeChart() {
-    const chartDom = document.getElementById('billTrendChart');
-    if (!chartDom) {
-        console.error('Error: Unable to find chart container.');
-        return;
-    }
-
-    const billTrendChart = echarts.init(chartDom);
-
-    // 配置选项
-    const chartOptions = getChartOptions();
-    billTrendChart.setOption(chartOptions);
-
-    // 绑定图表重新绘制
-    window.billTrendChart = billTrendChart;
-}
-
-// 获取图表配置
-function getChartOptions() {
-    return {
-        tooltip: {
-            trigger: 'axis',
-        },
-        legend: {
-            data: ['水费', '电费', '总费用'],
-            bottom: 10,
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '15%',
-            containLabel: true,
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: true,
-            data: ['10月', '11月', '12月', '1月', '2月', '3月'],
-        },
-        yAxis: {
-            type: 'value',
-            name: '费用（元）',
-        },
-        series: [
-            {
-                name: '水费',
-                type: 'bar',
-                data: [45, 48, 52, 50, 47, 50],
-                itemStyle: {
-                    color: 'rgb(57, 98, 214)',
-                },
-            },
-            {
-                name: '电费',
-                type: 'bar',
-                data: [90, 95, 105, 100, 95, 100],
-                itemStyle: {
-                    color: 'rgb(82, 196, 26)',
-                },
-            },
-            {
-                name: '总费用',
-                type: 'line',
-                data: [135, 143, 157, 150, 142, 150],
-                itemStyle: {
-                    color: 'rgb(255, 77, 79)',
-                },
-                lineStyle: {
-                    width: 3,
-                },
-                symbol: 'circle',
-                symbolSize: 8,
-            },
-        ],
-    };
-}
-
 // 处理窗口大小调整事件
 function addResizeListener() {
     window.addEventListener('resize', function () {
@@ -130,13 +48,13 @@ function setupLogoutHandler() {
 }
 
 // 查询账单
+// 查询账单
 async function searchBills() {
     try {
         // 获取表单数据
         const formData = {
             year: parseInt(document.getElementById('year').value) || undefined,
             month: parseInt(document.getElementById('month').value) || undefined,
-            days: parseInt(document.getElementById('days').value) || undefined,
             building: parseInt(document.getElementById('building').value) || undefined,
             dormitory: parseInt(document.getElementById('dormitory').value) || undefined
         };
@@ -147,20 +65,26 @@ async function searchBills() {
                 delete formData[key];
             }
         });
-
+        
         // 构建查询参数
-        const queryString = new URLSearchParams(formData).toString();
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-        // 发送查询请求
-        const response = await fetch(`http://120.24.176.40:80/api/bill/getDataByDormitory?${queryString}`, {
+        // 使用 formData 生成请求体
+        const raw = JSON.stringify(formData);
+
+        const requestOptions = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
 
+        const response = await fetch("http://120.24.176.40:80/api/bill/getDataByDormitory", requestOptions);
+        
         const data1 = await response.json();
         console.log(data1);
+
         if (data1.base.code === 0) {
             // 渲染查询结果
             renderResults(data1.data);
@@ -169,9 +93,10 @@ async function searchBills() {
         }
     } catch (err) {
         console.error('查询失败:', err);
-        alert('查询失败,请稍后重试');
+        alert('查询失败, 请稍后重试');
     }
 }
+
 
 // 渲染查询结果
 function renderResults(bills) {
@@ -181,11 +106,9 @@ function renderResults(bills) {
     if (!Array.isArray(bills)) {
         bills = [bills];
     }
-
     // 生成表格行HTML
     const rowsHtml = bills.map(bill => `
         <tr>
-            
             <td>${bill.year || '-'}</td>
             <td>${bill.month || '-'}</td>
             <td>${bill.days || '-'}</td>
