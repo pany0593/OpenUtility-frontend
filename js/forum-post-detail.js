@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             if (confirm('确定要退出登录吗？')) {
+                // 清除 localStorage 中的 token
+                localStorage.removeItem('token');
+
+               // 可以清除其他与用户相关的存储项
+                localStorage.removeItem('userInfo');
                 window.location.href = 'index.html';
             }
         });
@@ -34,28 +39,47 @@ document.addEventListener('DOMContentLoaded', async function() {
     // 加载评论
     await loadComments(articleId);
 
-    // 点赞按钮事件
-    document.querySelector('.like-btn').addEventListener('click', async () => {
-        try {
-            const response = await fetch('/post/article_like', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ articleId })
-            });
 
-            const data = await response.json();
-            if (data.code === 0) {
-                const likeBtn = document.querySelector('.like-btn');
-                likeBtn.classList.toggle('liked');
-                const likeCount = likeBtn.querySelector('.like-count');
-                likeCount.textContent = parseInt(likeCount.textContent) + 1;
-            }
-        } catch (err) {
-            console.error('点赞失败:', err);
+
+// 点赞文章事件
+document.querySelector('.like-btn').addEventListener('click', async () => {
+    const token = localStorage.getItem('token'); // 从 localStorage 获取 token 
+
+    if (!token) {
+        alert('用户未登录，请先登录！');
+        return;
+    }
+
+    try {
+        // 确保从 localStorage 获取 token
+        const token = localStorage.getItem('token');
+
+        // const articleId = articleId; // 替换为实际文章 ID（或者通过页面动态获取）
+        const response = await fetch('http://120.24.176.40:80/api/post/article_like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // 添加 Authorization 请求头
+            },
+            body: JSON.stringify({"userInfo.id":userInfo.id, "articleId":articleId })
+        });
+
+        const data = await response.json();
+
+        if (data.base.code === 0) {
+            const likeBtn = document.querySelector('.like-btn');
+            likeBtn.classList.toggle('liked'); // 切换按钮的 liked 样式
+            const likeCount = likeBtn.querySelector('.like-count');
+            likeCount.textContent = parseInt(likeCount.textContent, 10) + 1; // 更新点赞数
+        } else {
+            alert(`点赞失败: ${data.base.message}`);
         }
-    });
+    } catch (err) {
+        console.error('点赞失败:', err);
+        alert('点赞请求失败，请稍后重试！');
+    }
+});
+
 
     
 
@@ -76,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 },
                 body: JSON.stringify({
                     fatherId: currentArticleId,
-                    userId: userInfo.sub,
+                    userId: userInfo.id,
                     userName: userInfo.username,
                     content
                 })
@@ -256,7 +280,7 @@ function renderComments(comments) {
 
                     <button class="reply-btn" onclick="replyToComment('${comment.commentId}')">回复</button>
 
-                    ${comment.userId === userInfo.sub ? 
+                    ${comment.userId === userInfo.id ? 
                         `<button class="delete-btn" onclick="deleteComment('${comment.commentId}')">删除</button>` 
                         : ''}
                 </div>
@@ -289,7 +313,7 @@ function renderSubComments(subComments) {
                     <button class="comment-like-btn" onclick="likeComment('${subComment.commentId}')">
                         <span class="like-count">${subComment.likes}</span> 赞
                     </button>
-                    ${subComment.userId === userInfo.sub ? 
+                    ${subComment.userId === userInfo.id ? 
                         `<button class="delete-btn" onclick="deleteComment('${subComment.commentId}')">删除</button>` 
                         : ''}
                 </div>
@@ -319,7 +343,7 @@ function replyToComment(commentId) {
         },
         body: JSON.stringify({
             fatherId: commentId,
-            userId: userInfo.sub,
+            userId: userInfo.id,
             userName: userInfo.username,
             content: replyContent,
         }),
@@ -358,20 +382,36 @@ function getCurrentUserId() {
 // 点赞评论
 async function likeComment(commentId) {
     try {
-        const response = await fetch('/post/comment_like', {
+        const token = localStorage.getItem('token'); // 从 localStorage 获取 token 
+        const response = await fetch('http://120.24.176.40:80/api/post/comment_like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // 添加 Authorization 请求头
             },
-            body: JSON.stringify({ commentId }),
+            body: JSON.stringify({ "commentId":commentId }),
         });
 
         const result = await response.json();
-        if (result.base.code === 0) {
+        const message = result.message || "操作成功";
+        if (result.code === 0) {
             const likeBtn = document.querySelector(`[data-id="${commentId}"] .comment-like-btn`);
             const likeCount = likeBtn.querySelector('.like-count');
-            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            // likeCount.textContent = parseInt(likeCount.textContent) + 1;
+
+            // 更新为后端返回的最新点赞数
+            if (result.data && typeof result.data.likes === "number") {
+                likeCount.textContent = result.data.likes;
+             } 
+            //  else {
+            //     // 如果后端未返回最新点赞数，前端加 1
+            //     likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            // }
+
             likeBtn.classList.add('liked');
+        }else{
+            console.log(message);
+            
         }
     } catch (err) {
         console.error('点赞评论失败:', err);

@@ -47,7 +47,6 @@
                         <li><a href="admin-announcements.html">公告管理</a></li>
                         <li><a href="admin-forum.html">论坛管理</a></li>
                         
-                        <li><a href="admin-report.html">举报管理</a></li>
                     </ul>
                 </li>
             </ul>
@@ -67,89 +66,33 @@
         </header>
 
         <!-- 账单复查内容区 -->
-        <div class="review-container">
-            <!-- 搜索和筛选 -->
-            <div class="panel filter-section">
-                <div class="search-box">
-                    <input type="text" placeholder="搜索复查申请..." aria-label="搜索复查申请">
-                    <button class="search-btn">搜索</button>
-                </div>
-                <div class="filter-options">
-                    <select id="statusFilter">
-                        <option value="all">全部状态</option>
-                        <option value="pending">待处理</option>
-                        <option value="approved">已通过</option>
-                        <option value="rejected">已拒绝</option>
-                    </select>
-                </div>
-            </div>
+        <!-- 复查列表 -->
+<div class="panel users-table">
+    <table>
+        <thead>
+            <tr>
+                <th>楼栋</th>
+                <th>宿舍号</th>
+                <th>账单月份</th>
+                <th>原水费</th>
+                <th>原电费</th>
+                <th>申请原因</th>
+                <th>申请时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- 表格数据将通过JS动态插入 -->
+        </tbody>
+    </table>
+</div>
 
-            <!-- 复查列表 -->
-            <div class="panel review-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>申请人</th>
-                            <th>宿舍号</th>
-                            <th>账单月份</th>
-                            <th>原水费</th>
-                            <th>原电费</th>
-                            <th>申请原因</th>
-                            <th>申请时间</th>
-                            <th>状态</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>张三</td>
-                            <td>1号楼101</td>
-                            <td>2024-03</td>
-                            <td>¥50.00</td>
-                            <td>¥100.00</td>
-                            <td>本月水费计算似乎有误，比往常高出很多...</td>
-                            <td>2024-03-15 14:30</td>
-                            <td><span class="status pending">待处理</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="approve-btn">通过</button>
-                                    <button class="reject-btn">拒绝</button>
-                                    <button class="detail-btn">详情</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>李四</td>
-                            <td>2号楼205</td>
-                            <td>2024-03</td>
-                            <td>¥45.00</td>
-                            <td>¥95.00</td>
-                            <td>电表读数可能有误，请帮忙核实...</td>
-                            <td>2024-03-14 16:45</td>
-                            <td><span class="status approved">已通过</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="approve-btn" disabled>通过</button>
-                                    <button class="reject-btn" disabled>拒绝</button>
-                                    <button class="detail-btn">详情</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<!-- 分页控件 -->
+<div class="pagination" id="pagination">
+    <!-- 分页按钮会通过JS动态生成 -->
+</div>
 
-            <!-- 分页控件 -->
-            <div class="pagination">
-                <button class="page-btn" disabled>上一页</button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <span class="page-ellipsis">...</span>
-                <button class="page-btn">10</button>
-                <button class="page-btn">下一页</button>
-            </div>
-        </div>
     </main>
 </div>
 

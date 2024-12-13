@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const API_URL = "http://120.24.176.40:80/api/post/notice_add";
+
     // 显示页面内容
     const layout = document.querySelector('.layout');
     if (layout) layout.classList.add('loaded');
@@ -8,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
     const charCount = document.querySelector('.char-count');
-    const importantCheckbox = document.getElementById('important');
-    const notificationCheckbox = document.getElementById('sendNotification');
+
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
     // 更新字数统计
     function updateCharCount() {
@@ -17,25 +20,26 @@ document.addEventListener('DOMContentLoaded', function() {
         charCount.textContent = `${count}/2000`;
         
         // 更新字数颜色
-        if (count > 2000) {
-            charCount.style.color = '#ff4d4f';
-        } else {
-            charCount.style.color = '#666';
-        }
+        charCount.style.color = count > 2000 ? '#ff4d4f' : '#666';
     }
 
     // 监听内容输入
     contentInput.addEventListener('input', updateCharCount);
 
     // 表单提交处理
-    publishForm.addEventListener('submit', function(e) {
+    publishForm.addEventListener('submit', function (e) {
         e.preventDefault();
+    
+        console.log("userInfo.id:",userInfo.id);
+        console.log("userInfo.name:",userInfo.username);
+        
 
         // 获取表单数据
         const title = titleInput.value.trim();
         const content = contentInput.value.trim();
-        const isImportant = importantCheckbox.checked;
-        const sendNotification = notificationCheckbox.checked;
+        const authorId = userInfo.id; 
+        const authorName = userInfo.username; 
+        const desc = content.length > 10 ? content.substring(0, 10) + "..." : content; // 简介
 
         // 表单验证
         if (title.length < 4) {
@@ -56,24 +60,33 @@ document.addEventListener('DOMContentLoaded', function() {
         // 收集表单数据
         const announcementData = {
             title,
-            content,
-            isImportant,
-            sendNotification,
-            timestamp: new Date().toISOString(),
-            publisher: '管理员'
+            authorId,
+            authorName,
+            desc,
+            content
         };
 
-        // 这里添加发布公告的逻辑
-        console.log('发布公告:', announcementData);
-
-        // 将公告数据存储到 localStorage
-        const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
-        announcements.unshift(announcementData); // 新公告添加到列表开头
-        localStorage.setItem('announcements', JSON.stringify(announcements));
-
-        // 发布成功后跳转
-        alert('公告发布成功！');
-        window.location.href = 'admin-announcements.html';
+        // 调用后端接口发布公告
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(announcementData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.base.code === 0) {
+                    alert('公告发布成功！');
+                    window.location.href = 'admin-announcements.html';
+                } else {
+                    alert(`发布失败: ${data.base.message}`);
+                }
+            })
+            .catch((error) => {
+                console.error("发布公告时出错:", error);
+                alert('发布公告时发生错误，请稍后再试！');
+            });
     });
 
     // 退出登录
@@ -82,4 +95,4 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'admin-login.html';
         }
     });
-}); 
+});

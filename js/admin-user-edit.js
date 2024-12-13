@@ -2,25 +2,31 @@ document.addEventListener('DOMContentLoaded', async function() {
     // 显示页面内容
     const layout = document.querySelector('.layout');
     if (layout) layout.classList.add('loaded');
-
-    // 获取URL参数中的用户ID
     const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('id');
-
-    // 如果有用户ID，则加载用户数据
-    if (userId) {
-        await loadUserData(userId);
+    const building = String(urlParams.get('building'));  // 将 building 转为字符串
+    const dormitory = String(urlParams.get('dormitory'));  // 将 dormitory 转为字符串
+    
+    // 打印查看获取的参数值
+    // 如果有 building 和 dormitory，则加载用户数据
+    if (building && dormitory) {
+        loadUserData(building, dormitory);
     } else {
-        alert('未找到要编辑的用户');
-        history.back();
+        alert('缺少必要的参数:building 或 dormitory');
+        // 可选择跳转回上一页或某个错误页面
+        // history.back();
     }
-
+    
     // 表单提交处理
     const userForm = document.getElementById('userForm');
     userForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         // 获取表单数据并处理
-        // ...
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const building = document.getElementById('building').value;
+        const dormitory = document.getElementById('dormitory').value;
+        // 提交或保存更新的用户数据
+        // 这里你可以调用一个 API 来更新用户数据
     });
 
     // 退出登录
@@ -31,27 +37,52 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 });
 
-// 加载用户数据
-async function loadUserData(userId) {
+// 根据 building 和 dormitory 查询用户数据
+async function loadUserData(building, dormitory) {
     try {
-        const response = await fetch(`/users/${userId}`);
+        const token = localStorage.getItem("token");
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${token}`);
+
+        // 拼接 URL 参数，确保 URL 格式正确
+        const url = new URL("http://120.24.176.40:80/api/users/by-room");
+        url.searchParams.append("building", building);
+        url.searchParams.append("dormitory", dormitory);
+
+        console.log('Request URL:', url.href);
+        console.log('Building:', building);
+        console.log('Dormitory:', dormitory);
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        // 发送请求并处理响应
+        const response = await fetch(url.href, requestOptions);
         const data = await response.json();
 
-        if (data.code === 0) {
-            const user = data.data;
+        console.log(data);
+
+        // 判断返回数据是否正常
+        if (data.base.code === 0) {
+            const user = data.data[0];  // 获取返回的第一个用户数据对象
+            // 将返回的用户数据填充到表单中
+            console.log(user);
             document.getElementById('username').value = user.username;
             document.getElementById('building').value = user.building;
-            document.getElementById('dormitory').value = user.dormitory;
+            document.getElementById('roomNumber').value = user.dormitory;
             document.getElementById('email').value = user.email;
         } else {
-            throw new Error(data.message || '获取用户数据失败');
+           // throw new Error(data.message || '获取用户数据失败');
         }
     } catch (err) {
         console.error('加载用户数据失败:', err);
-        alert('加载用户数据失败，请稍后重试');
-        history.back();
+       // alert('加载用户数据失败，请稍后重试');
     }
 }
+
 
 // 表单验证
 function validateForm() {

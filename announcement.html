@@ -44,108 +44,139 @@
         </nav>
     </aside>
 
+   
+
     <!-- 主要内容区 -->
     <main class="main-content">
         <!-- 顶部栏 -->
         <header class="top-bar">
-            <h1>校园水电管家</h1>
+            <h1>公告管理</h1>
             <div class="user-info">
                 <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
-                <span class="username">张三</span>
+                <span class="username">用户</span>
                 <button class="logout-btn">退出登录</button>
             </div>
         </header>
 
-        <!-- 公告内容区 -->
-        <div class="announcement-container">
-            <!-- 搜索和筛选 -->
-            <div class="panel filter-section">
+        <!-- 公告管理内容区 -->
+        <div class="announcements-container">
+            <!-- 搜索和操作栏 -->
+            <div class="panel action-section">
                 <div class="search-box">
                     <input type="text" placeholder="搜索公告..." aria-label="搜索公告">
                     <button class="search-btn">搜索</button>
                 </div>
-                <div class="filter-options">
-                    <select id="timeFilter">
-                        <option value="all">全部时间</option>
-                        <option value="week">最近一周</option>
-                        <option value="month">最近一月</option>
-                        <option value="year">最近一年</option>
-                    </select>
-                    <select id="typeFilter">
-                        <option value="all">全部类型</option>
-                        <option value="important">重要通知</option>
-                        <option value="normal">普通公告</option>
-                        <option value="maintenance">维护通知</option>
-                    </select>
-                </div>
+                <!-- <button class="publish-btn" onclick="location.href='admin-announcement-publish.html'">
+                    <i class="icon-publish"></i>
+                </button> -->
             </div>
 
-            <!-- 公告列表 -->
-            <div class="panel announcement-list">
-                <!-- 重要公告 -->
-                <div class="announcement-item important">
-                    <div class="announcement-header">
-                        <span class="tag">重要通知</span>
-                        <h3>关于调整2024年度水电费收费标准的通知</h3>
-                        <time>2024-03-20 10:00</time>
-                    </div>
-                    <div class="announcement-content">
-                        <p>根据市发展和改革委员会最新文件要求，从2024年4月1日起，我校水电费收费标准将作如下调整：...</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <button class="detail-btn">查看详情</button>
-                        <span class="read-count">阅读量：1280</span>
-                    </div>
-                </div>
 
-                <!-- 普通公告 -->
-                <div class="announcement-item">
-                    <div class="announcement-header">
-                        <span class="tag">普通公告</span>
-                        <h3>2024年寒假期间水电费结算说明</h3>
-                        <time>2024-03-15 14:30</time>
-                    </div>
-                    <div class="announcement-content">
-                        <p>为确保寒假期间水电费结算准确无误，请各位同学注意以下事项：...</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <button class="detail-btn">查看详情</button>
-                        <span class="read-count">阅读量：856</span>
-                    </div>
-                </div>
 
-                <!-- 维护通知 -->
-                <div class="announcement-item maintenance">
-                    <div class="announcement-header">
-                        <span class="tag">维护通知</span>
-                        <h3>系统升级维护通知</h3>
-                        <time>2024-03-10 09:00</time>
-                    </div>
-                    <div class="announcement-content">
-                        <p>为提升系统服务质量，我们将于本周日凌晨2:00-4:00进行系统升级维护，期间可能影响部分功能使用...</p>
-                    </div>
-                    <div class="announcement-footer">
-                        <button class="detail-btn">查看详情</button>
-                        <span class="read-count">阅读量：632</span>
-                    </div>
+            <div class="announcements-container">
+                <div id="announcement-cards" class="announcement-cards">
+                    <!-- 动态生成公告卡片 -->
+                </div>
+                <div class="pagination" id="pagination-controls">
+                    <!-- 动态生成分页按钮 -->
                 </div>
             </div>
+            
+            
 
-            <!-- 分页控件 -->
-            <div class="pagination">
-                <button class="page-btn" disabled>上一页</button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <span class="page-ellipsis">...</span>
-                <button class="page-btn">10</button>
-                <button class="page-btn">下一页</button>
-            </div>
+
+
         </div>
     </main>
 </div>
 
 <!-- 延迟加载 JS -->
 <script src="js/announcement.js" defer></script>
+
+<style>
+
+/* 调整搜索框与公告卡片之间的间距 */
+.panel.action-section {
+    margin-bottom: 40px; /* 搜索框与下面内容的间距 */
+}
+
+    
+.announcement-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.announcement-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(100% - 40px);
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.announcement-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.announcement-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.announcement-card .meta-info {
+    font-size: 12px;
+    color: #999;
+}
+
+.announcement-card .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.announcement-card .actions button {
+    background: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination .page-btn {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.pagination .page-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+</style>
+
+
 </body>
 </html> 
