@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 筛选功能
-    const timeFilter = document.getElementById('timeFilter');
-    const typeFilter = document.getElementById('typeFilter');
+    // const timeFilter = document.getElementById('timeFilter');
+    // const typeFilter = document.getElementById('typeFilter');
 
-    timeFilter.addEventListener('change', function() {
-        filterAnnouncements();
-    });
+    // timeFilter.addEventListener('change', function() {
+    //     filterAnnouncements();
+    // });
 
-    typeFilter.addEventListener('change', function() {
-        filterAnnouncements();
-    });
+    // typeFilter.addEventListener('change', function() {
+    //     filterAnnouncements();
+    // });
 
     // 查看详情按钮
     document.querySelectorAll('.detail-btn').forEach(btn => {
@@ -50,36 +50,116 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 退出登录
-    document.querySelector('.logout-btn').addEventListener('click', function() {
-        if(confirm('确定要退出登录吗？')) {
-            window.location.href = 'index.html';
-        }
-    });
+    // document.querySelector('.logout-btn').addEventListener('click', function() {
+    //     if(confirm('确定要退出登录吗？')) {
+    //         window.location.href = 'index.html';
+    //     }
+    // });
 });
 
-// 搜索公告
-function searchAnnouncements(keyword) {
-    console.log('搜索公告:', keyword);
-    // 这里添加搜索逻辑
+
+
+
+
+const API_URL = "http://120.24.176.40:80/api/post/notice_list_get";
+    const announcementList = document.getElementById("announcement-list");
+    const paginationControls = document.getElementById("pagination-controls");
+    let currentPage = 1;
+
+    // 获取公告列表
+function fetchAnnouncements(page) {
+    fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page }), // 发送页码信息到后端
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+                
+            }
+            return response.json(); // 解析 JSON 数据
+        })
+        .then((data) => {
+            if (data.base.code === 0) {
+                renderAnnouncements(data.data.notices); // 渲染公告列表
+                renderPagination(data.data.totalPages, page); // 渲染分页控件
+            } else {
+                alert(data.base.message); // 如果后端返回错误信息，弹窗提示
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching announcements:", error);
+            alert("公告列表加载失败，请稍后重试！");
+        });
 }
 
-// 筛选公告
-function filterAnnouncements() {
-    const timeValue = document.getElementById('timeFilter').value;
-    const typeValue = document.getElementById('typeFilter').value;
-    console.log('筛选条件:', { time: timeValue, type: typeValue });
-    // 这里添加筛选逻辑
-}
+    //渲染公告
+    function renderAnnouncements(notices) {
+        const announcementCards = document.getElementById("announcement-cards");
+        announcementCards.innerHTML = ""; // 清空旧数据
+    
+        notices.forEach((notice) => {
+            const card = document.createElement("div");
+            card.classList.add("announcement-card");
+    
+            card.innerHTML = `
+                <h3>${notice.title}</h3>
+                <p>${notice.desc}</p>
+                <div class="meta-info">
+                    <span>发布人：${notice.authorName}</span> | 
+                    <span>发布时间：${notice.createTime}</span>
+                </div>
+            `;
+    
+            announcementCards.appendChild(card);
+        });
+    
+        // document.querySelectorAll(".delete-btn").forEach((btn) =>
+        //     btn.addEventListener("click", function () {
+        //         const articleId = this.getAttribute("data-id");
+        //         deleteAnnouncement(articleId);
+        //     })
+        // );
+        
+    }
+    
 
-// 加载指定页码的公告
-function loadAnnouncementPage(page) {
-    console.log('加载第', page, '页公告');
-    // 这里添加分页加载逻辑
-}
 
-// 显示公告详情
-function showAnnouncementDetail(title) {
-    console.log('查看公告详情:', title);
-    // 这里添加显示详情的逻辑
-    alert('正在开发中...');
-} 
+    //分页控件
+
+    function renderPagination(totalPages, currentPage) {
+        paginationControls.innerHTML = "";
+
+        const createButton = (text, page) => {
+            const button = document.createElement("button");
+            button.classList.add("page-btn");
+            if (page === currentPage) button.classList.add("active");
+            button.textContent = text;
+            button.addEventListener("click", () => fetchAnnouncements(page));
+            return button;
+        };
+
+        if (currentPage > 1) {
+            paginationControls.appendChild(createButton("上一页", currentPage - 1));
+        }
+
+        for (let i = 1; i <= totalPages; i++) {
+            paginationControls.appendChild(createButton(i, i));
+        }
+
+        if (currentPage < totalPages) {
+            paginationControls.appendChild(createButton("下一页", currentPage + 1));
+        }
+    }
+
+
+
+    
+
+    // 初始加载第一页公告
+    fetchAnnouncements(currentPage);
+
+
