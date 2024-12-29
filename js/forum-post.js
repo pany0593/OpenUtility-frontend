@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
         console.log("Retrieved userInfo:", userInfo); // 调试日志
 
-        const userId = userInfo.sub || '未知用户';
+        const userId = userInfo.id || '未知用户';
         const userName = userInfo.username || '匿名';
 
          // 构建发帖数据
@@ -115,6 +115,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
             if (confirm('确定要退出登录吗？')) {
+
+                // 清除 localStorage 中的 token
+                localStorage.removeItem('token');
+
+               // 可以清除其他与用户相关的存储项
+                localStorage.removeItem('userInfo');
+                
                 window.location.href = 'index.html';  // 退出登录后跳转到首页
             }
         });

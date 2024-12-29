@@ -13,7 +13,7 @@ document.querySelector('.logout-btn')?.addEventListener('click', function () {
         localStorage.removeItem('token');
 
         // 可以清除其他与用户相关的存储项
-        // localStorage.removeItem('userInfo'); // 如果有存储用户信息，也可以清除
+        localStorage.removeItem('userInfo'); // 如果有存储用户信息，也可以清除
 
         // 跳转到 index.html
         window.location.href = 'index.html';
@@ -74,7 +74,7 @@ document.querySelector('.logout-btn')?.addEventListener('click', function () {
 });
 
 
-const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}'); // 确保在这里初始化
 
 
  // 渲染文章详情
@@ -105,7 +105,7 @@ const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
                 <span class="comments">点赞：${article.likes}</span>
             </div>
             <p class="post-preview">${article.desc}</p>
-            ${article.authorId === userInfo.sub ? 
+            ${article.authorId === userInfo.id ? 
                 `<button class="delete-btn" onclick="deleteArticle('${article.articleId}')" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer; position: absolute; right: 10px; top: 10px;">删除</button>` 
                 : ''}
         </div>
@@ -231,11 +231,11 @@ function updateArticleList(articles) {
     articles.forEach(article => {
         const postItem = document.createElement('div');
         postItem.classList.add('post-item');
-        postItem.dataset.id = article.articleId; // 设置 data-id
+        postItem.dataset.id = article.articleId; // 设置 data-id  
 
         postItem.innerHTML = `
             <div class="post-avatar">
-                <img src="assets/images/avatar.png" alt="用户头像" loading="lazy">
+                <img src= assets/images/avatar.png   alt="用户头像" loading="lazy">  
             </div>
             <div class="post-content">
                 <div class="post-title">
@@ -249,11 +249,12 @@ function updateArticleList(articles) {
                     <span class="comments">点赞：${article.likes}</span>
                 </div>
                 <p class="post-preview">${article.desc}</p>
-                ${article.authorId === userInfo.sub ? 
+                ${article.authorId === userInfo.id ? 
                     `<button class="delete-btn" onclick="deleteArticle('${article.articleId}')" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer; position: absolute; right: 10px; top: 10px;">删除</button>` 
                     : ''}
             </div>
         `;
+        
 
 
         // 绑定标题的点击事件
@@ -266,6 +267,13 @@ function updateArticleList(articles) {
 
         postsList.appendChild(postItem);
     });
+
+
+    console.log(userInfo);
+
+
+
+    
 }
 
 // 动态生成分页按钮
