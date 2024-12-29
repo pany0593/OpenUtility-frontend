@@ -49,12 +49,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 退出登录
-    // document.querySelector('.logout-btn').addEventListener('click', function() {
-    //     if(confirm('确定要退出登录吗？')) {
-    //         window.location.href = 'index.html';
-    //     }
-    // });
+    //// 退出登录
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('确定要退出登录吗？')) {
+                // 清除 localStorage 中的 token
+                localStorage.removeItem('token');
+
+               // 可以清除其他与用户相关的存储项
+                localStorage.removeItem('userInfo');
+                window.location.href = 'index.html';
+            }
+        });
+    }
+
+
 });
 
 
@@ -106,7 +117,7 @@ function fetchAnnouncements(page) {
             card.classList.add("announcement-card");
     
             card.innerHTML = `
-                <h3>${notice.title}</h3>
+                <h3 class="announcement-title" data-id="${notice.noticeId}">${notice.title}</h3>
                 <p>${notice.desc}</p>
                 <div class="meta-info">
                     <span>发布人：${notice.authorName}</span> | 
@@ -123,6 +134,17 @@ function fetchAnnouncements(page) {
         //         deleteAnnouncement(articleId);
         //     })
         // );
+
+
+        // 给公告标题添加点击事件
+        document.querySelectorAll('.announcement-title').forEach(titleElement => {
+            titleElement.addEventListener('click', function() {
+                const announcementId = this.getAttribute('data-id');
+                if (announcementId) {
+                    window.location.href = `announcement-detail.html?id=${announcementId}`;
+                }
+            });
+        });
         
     }
     

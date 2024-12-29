@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公告详情 - 校园水电管家</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/forum-post-detail.css">
+</head>
+<body>
+<div class="layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="校园水电管家LOGO" width="160" height="70" loading="lazy">
+            <h2>校园水电管家</h2>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="main.html">首页</a></li>
+                <li class="submenu">
+                    <a href="#">水电管理</a>
+                    <ul>
+                        <li><a href="bill-history.html">历史水电费账单</a></li>
+                        <li><a href="bill-payment.html">水电费缴纳</a></li>
+                        <li><a href="bill-analysis.html">水电费分析</a></li>
+                        <li><a href="bill-preset.html">水电费预设置</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0)">校园水电论坛</a>
+                    <ul>
+                        <li ><a href="forum-posts.html">帖子</a></li>
+                        <li><a href="forum-post.html">发帖</a></li>
+                    </ul>
+                </li>
+                <li><a href="feedback.html">反馈</a></li>
+                <li class="active"><a href="announcement.html">公告</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="settings.html">设置</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- 顶部栏 -->
+        <header class="top-bar">
+            <h1>公告详情</h1>
+            <div class="user-info">
+                <img src="assets/images/avatar.png" alt="用户头像" class="avatar" loading="lazy">
+                <span class="username">张三</span>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </header>
+
+        <div class="post-detail-container">
+            <!-- 公告内容 -->
+            <div class="panel post-content">
+                <div class="post-header">
+                    <h1 class="post-title">加载中...</h1>
+                    <div class="post-meta">
+                        <span class="author">作者：加载中...</span>
+                        <span class="time">发布时间：加载中...</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="post-text">加载中...</div>
+                </div>
+                <div class="post-actions">
+                    
+
+                </div>
+            </div>
+
+            <!-- 评论弹窗 -->
+            
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="js/announcement-detail.js"></script>
+
+<style>
+
+
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; /* 确保弹窗更宽敞 */
+    max-height: 90%; /* 限制最大高度 */
+    background-color: white; /* 确保背景为纯白，消除透明度影响 */
+    border: 1px solid #ccc; /* 边框增加对比度 */
+    border-radius: 8px; /* 圆角柔化 */
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 调整阴影，避免模糊 */
+    z-index: 1000;
+    overflow-y: auto; /* 超出内容滚动 */
+    font-family: 'Arial', sans-serif; /* 使用清晰字体 */
+    font-size: 16px; /* 增大字体，提高可读性 */
+    line-height: 1.6; /* 增加行距 */
+}
+
+.modal-content {
+    text-align: left;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fdfdfd; /* 使用轻微对比的背景色 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 内部阴影，增强视觉效果 */
+}
+
+.modal textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.modal button {
+    margin: 10px 5px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal button#cancel-modify {
+    background-color: #dc3545;
+}
+
+.modal button:hover {
+    opacity: 0.9;
+}
+
+body.modal-open {
+    overflow: hidden; /* 禁止背景滚动 */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 调暗遮罩背景 */
+    z-index: 999;
+}
+
+
+
+
+
+</style>
+</body>
+</html>

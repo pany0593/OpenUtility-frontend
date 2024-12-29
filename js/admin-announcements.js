@@ -28,36 +28,38 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 加载公告列表
-function loadAnnouncements() {
-    const tbody = document.querySelector('.announcements-table tbody');
-    const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+// function loadAnnouncements() {
+//     const tbody = document.querySelector('.announcements-table tbody');
+//     const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
 
-    if (!tbody) {
-        console.error("Table body element not found!");
-        return;
-    }
+//     if (!tbody) {
+//         console.error("Table body element not found!");
+//         return;
+//     }
     
-    // 清空现有内容
-    if (tbody.innerHTML.trim() !== '') {
-        tbody.innerHTML = '';
-    }
+//     // 清空现有内容
+//     if (tbody.innerHTML.trim() !== '') {
+//         tbody.innerHTML = '';
+//     }
 
     
-    // 添加公告列表
-    announcements.forEach(announcement => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${announcement.title}</td>
-            <td>${announcement.content}</td>
-            <td>${formatDate(announcement.timestamp)}</td>
-            <td>${announcement.publisher}</td>
-            <td>
-                <button class="delete-btn" onclick="deleteAnnouncement('${announcement.timestamp}')">删除</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
+//     // 添加公告列表
+//     announcements.forEach(announcement => {
+//         const tr = document.createElement('tr');
+//         tr.innerHTML = `
+//             <td>${announcement.title}</td>
+//             <td>${announcement.content}</td>
+//             <td>${formatDate(announcement.timestamp)}</td>
+//             <td>${announcement.publisher}</td>
+//             <td>
+//                 <button class="delete-btn" onclick="deleteAnnouncement('${announcement.timestamp}')">删除</button>
+//             </td>
+//         `;
+//         tbody.appendChild(tr);
+//     });
+// }
+
+
 
 // 搜索公告
 function searchAnnouncements(keyword) {
@@ -141,7 +143,7 @@ function fetchAnnouncements(page) {
             
     
             card.innerHTML = `
-                <h3>${notice.title}</h3>
+                <h3 class="announcement-title" data-id="${notice.noticeId}">${notice.title}</h3>
                 <p>${notice.desc}</p>
                 <div class="meta-info">
                     <span>发布人：${notice.authorName}</span> | 
@@ -161,7 +163,24 @@ function fetchAnnouncements(page) {
                 deleteAnnouncement(articleId);
             })
         );
-    }
+
+
+        // 给公告标题添加点击事件
+        document.querySelectorAll('.announcement-title').forEach(titleElement => {
+            titleElement.addEventListener('click', function() {
+                const announcementId = this.getAttribute('data-id');
+                if (announcementId) {
+                    window.location.href = `announcement-detail.html?id=${announcementId}`;
+                }
+            });
+        });
+
+
+
+}
+
+
+
     
 
 
