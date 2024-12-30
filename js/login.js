@@ -64,18 +64,56 @@ document.addEventListener('DOMContentLoaded', function () {
                 localStorage.setItem("token", token);
 
                 // 解码 token 并提取用户信息
-                const userInfo = decodeJwtToken(token);
+                // const userInfo = decodeJwtToken(token);
                 
-                if (userInfo) {
-                    // 将用户信息存储到 localStorage
-                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                    console.log("用户信息已存储到 localStorage:", userInfo);
-                } else {
-                    console.error("无法解码 token 中的用户信息");
-                }
+                
 
-                // 登录成功后跳转到 main.html
-                window.location.href = "main.html";  
+
+                
+    if (token) {
+        // 使用 fetch 发送 GET 请求
+        fetch("http://120.24.176.40:80/api/users/profile", {
+            method: "GET",
+            headers: {
+            Authorization: `Bearer ${token}`, // 将 token 添加到请求头
+            "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+            if (response.ok) {
+                return response.json(); // 解析响应为 JSON
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            })
+            .then((data) => {
+            if (data.base && data.base.code === 0) {
+                // console.log("用户信息:", data.data); // 打印用户信息
+
+                const userInfo = data.data;
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                // console.log("用户信息已存储到 localStorage:", localStorage.getItem('userInfo'));
+
+                
+                const storedUserInfo = localStorage.getItem('userInfo');
+                if (storedUserInfo) {
+                    console.log("用户信息已存储到 localStorage:", storedUserInfo);
+                    window.location.href = "main.html";
+                } 
+
+
+            }  else {
+                console.error("响应错误信息:", data.base ? data.base.message : "未知错误");
+            }
+            })
+            .catch((error) => {
+            console.error("请求失败:", error.message);
+            });
+
+        } else {
+        console.error("未找到 Token，请先登录。");
+        }
+
             } else {
                 // 登录失败
                 alert(result.base.message || '登录失败');
@@ -85,6 +123,10 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('登录失败，请稍后重试');
         }
     });
+
+
+
+
 
     /**
      * 解码 JWT token 并提取用户信息（处理中文字符乱码问题）
@@ -113,6 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return null;
         }
     }
+
+
 
     /**
      * 安全 Base64 解码，解决 UTF-8 字符乱码问题
@@ -144,4 +188,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return null;
         }
     }
+
+
+
+
+
 });
